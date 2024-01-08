@@ -34,9 +34,6 @@ const methods = reactive({
         })
     },
 })
-
-
-
 </script>
 
 <template>
