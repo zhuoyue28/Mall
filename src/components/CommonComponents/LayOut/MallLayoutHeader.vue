@@ -1,6 +1,6 @@
 <!-- 总页面-组件-header  书写人:卓越 -->
 <script lang="ts" setup>
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { ExclamationCircleFilled } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { reactive, createVNode, h } from 'vue'
 import { Modal } from 'ant-design-vue';
@@ -24,7 +24,7 @@ const methods = reactive({
             content: data.content,
             okText: '确认',
             cancelText: '取消',
-            icon: createVNode(ExclamationCircleOutlined),
+            icon: createVNode(ExclamationCircleFilled),
             maskClosable: true,
             autoFocusButton: null,
             onOk: () => {
