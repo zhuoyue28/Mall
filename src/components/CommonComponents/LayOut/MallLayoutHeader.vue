@@ -2,18 +2,17 @@
 <script lang="ts" setup>
 import { ExclamationCircleFilled } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
-import { reactive, createVNode, h } from 'vue'
+import { reactive, h } from 'vue'
 import { Modal } from 'ant-design-vue';
 
 const router = useRouter()// 路由
 
 // 定义变量
 const data = reactive({
+    contentStyle: { style: { fontSize: '16px', fontWeight: '500' } },//节点样式
     content: () => {//插入节点
-        return h('div', {
-            style: { fontSize: '16px', fontWeight: '500' }
-        }, '确认退出登录吗？')
-    }
+        return h('div', data.contentStyle, '确认退出登录吗？')
+    },
 })
 
 // 定义方法
@@ -24,7 +23,7 @@ const methods = reactive({
             content: data.content,
             okText: '确认',
             cancelText: '取消',
-            icon: createVNode(ExclamationCircleFilled),
+            icon: h(ExclamationCircleFilled),
             maskClosable: true,
             autoFocusButton: null,
             onOk: () => {
@@ -34,6 +33,8 @@ const methods = reactive({
         })
     },
 })
+
+
 </script>
 
 <template>
