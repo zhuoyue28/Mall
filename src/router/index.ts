@@ -1,22 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+const modules:any = await import.meta.glob('../views/**/*.vue', {
+  import: 'default',
+  eager: true,
+})  // 导入
+
+const str = 'IndexLayout/IndexLayout'
+console.log(modules), '----------------';
+
+const url = `../views/${str}.vue`
+Object.keys(modules).map((path) => {
+  console.log(path, '-----------------123');
+  console.log(modules[url]);
+})
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
+    /* {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'IndexLayout',
+      component: modules[url]
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/login',
+      name: 'login',
+      component: modules[url]
+    } */
   ]
 })
 

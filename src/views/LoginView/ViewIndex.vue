@@ -1,6 +1,6 @@
 <template>
     <div>
-     nihapo
+登录
     </div>
 </template>
 
@@ -8,6 +8,4 @@
 
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

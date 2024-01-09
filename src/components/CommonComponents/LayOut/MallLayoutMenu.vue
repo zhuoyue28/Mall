@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px" mode="inline" :open-keys="state.openKeys"
+  <div class="h-full overflow-y-auto w-[256px] menuDiv">
+    <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px;" mode="inline" :open-keys="state.openKeys"
       :items="items" @openChange="onOpenChange"></a-menu>
   </div>
 </template>
@@ -59,4 +59,11 @@ const onOpenChange = (openKeys: string[]) => {
   }
 };
 </script>
+
+
+<style lang="less" scoped>
+.menuDiv::-webkit-scrollbar {
+    display: none !important;
+  }
+</style>
 
