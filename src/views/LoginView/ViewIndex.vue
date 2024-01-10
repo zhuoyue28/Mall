@@ -5,9 +5,9 @@
                 src="../../assets/image/loginLogo.png" alt="">
         </div>
 
-        <div class="flex justify-between 2xl:pr-[200px] xl:pr-[100px] xl:pt-[50px] lg:pr-[80px] md:pr-0 sm:pr-[30px]  items-center
-         
-        " style="height: calc(100vh - 250px);">
+        <div class="flex justify-between 2xl:pr-[200px] xl:pr-[100px]
+         xl:pt-[50px] lg:pr-[80px] md:pr-0 sm:pr-[30px]  items-center
+         " style="height: calc(100vh - 250px);">
             <div class=" w-[100px] h-[100px]"></div>
             <div class="
                 bg-[#fff]
@@ -17,6 +17,8 @@
                 lg:p-[40px] pt-[40px] sm:p-[20px]">
                 <div class="text-[20px] font-[700] text-[#000] text-center
                  xl:mb-[40px] lg:mb-[40px] md:mb-[20px] sm:mb-[12px]">登 录</div>
+
+
                 <a-form :model="formState" name="basic" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }"
                     autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed" style="width: 100%;">
                     <a-form-item label="" name="username" :rules="[{ required: true, message: '请输入账号!' }]"
@@ -45,6 +47,8 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { login } from "../../request/api/login"
+
 
 interface FormState {
     username: string;
@@ -59,6 +63,9 @@ const formState = reactive<FormState>({
 });
 const onFinish = (values: any) => {
     console.log('Success:', values);
+    login({ account: formState.username, password: formState.password }).then((res) => {
+        console.log(res, '登录接口');
+    })
 };
 
 const onFinishFailed = (errorInfo: any) => {
