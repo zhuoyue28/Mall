@@ -25,7 +25,7 @@ export default defineConfig({
         // target: 'https://netseaglobal-api.aucfan-cn.com/', // 测试服
         // target: 'https://extend.aucfan-cn.com/', // 测试服
 
-        target: 'http://dev-cn.your-api-server.com/', // 实际请求地址
+        target: 'http://dev-cn.your-api-server.com', // 实际请求地址
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/zyapi/, ""),
       }, 
