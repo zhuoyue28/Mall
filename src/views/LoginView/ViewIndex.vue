@@ -19,25 +19,28 @@
                  xl:mb-[40px] lg:mb-[40px] md:mb-[20px] sm:mb-[12px]">登 录</div>
 
 
-                <a-form :model="formState" name="basic" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }"
-                    autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed" style="width: 100%;">
+                <a-form :model="data.formState" name="basic" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }"
+                    autocomplete="off" @finish="methods.onFinish" @finishFailed="methods.onFinishFailed"
+                    style="width: 100%;">
                     <a-form-item label="" name="username" :rules="[{ required: true, message: '请输入账号!' }]"
                         class="lg:mb-[20px] xl:mb-[40px] md:mb-[10px]">
-                        <a-input class="lg:h-[40px]" v-model:value="formState.username" />
+                        <a-input class="lg:h-[40px]" v-model:value="data.formState.username" />
                     </a-form-item>
 
                     <a-form-item label="" name="password" :rules="[{ required: true, message: '请输入密码!' }]">
-                        <a-input-password class="lg:h-[40px]" v-model:value="formState.password" />
+                        <a-input-password class="lg:h-[40px]" v-model:value="data.formState.password" />
                     </a-form-item>
 
                     <a-form-item name="remember" :wrapper-col="{ offset: 0, span: 24 }" class="xl:mb-[40px] lg:mb-[40px]
                      md:mb-[20px] sm:mb-[10px]
                     ">
-                        <a-checkbox v-model:checked="formState.remember">记住密码</a-checkbox>
+                        <a-checkbox v-model:checked="data.formState.remember">记住密码</a-checkbox>
                     </a-form-item>
 
                     <a-form-item :wrapper-col="{ offset: 0, span: 24 }">
-                        <a-button class="w-[100%] lg:h-[40px]" type="primary" html-type="submit">登 录</a-button>
+                        <a-button class="w-[100%]" type="primary" html-type="submit" size="large"
+                            :loading="data.okLoading">登
+                            录</a-button>
                     </a-form-item>
                 </a-form>
             </div>
@@ -46,31 +49,64 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
-import { login } from "../../request/api/login"
-
-
-interface FormState {
+import { reactive, inject } from 'vue';
+import { login } from "@/request/api/loginapi/login"
+import { useRouter } from 'vue-router';
+interface FormState {//登录表单数据类型
     username: string;
     password: string;
     remember: boolean;
 }
 
-const formState = reactive<FormState>({
-    username: '',
-    password: '',
-    remember: true,
-});
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-    login({ account: formState.username, password: formState.password }).then((res) => {
-        console.log(res, '登录接口');
-    })
-};
+interface dataType {//定义变量类型
+    router: any,
+    formState: FormState,
+    okLoading: boolean,
+    messageFn: Function,
+    str: string | undefined,
+}
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
+
+// 定义变量
+const data = reactive<dataType>({
+    router: useRouter(),//路由
+    formState: {//登录表单数据
+        username: '',
+        password: '',
+        remember: true,
+    },
+    okLoading: false,//确定按钮加载
+    messageFn: inject('messageFn') as Function,//APP.vue传递方法
+    str: inject('str'),
+})
+
+
+// 定义方法
+const methods = reactive({
+    onFinish: (values: any) => {//登录验证成功
+        data.okLoading = true
+        console.log('Success:', values);
+        login({ account: data.formState.username, password: data.formState.password }).then((res) => {
+            console.log(res, '登录接口');
+            if (res.code == 200) {
+                data.messageFn('登录成功', 'success')
+                const mallToken = res.data.token
+                const adminInfo = res.data.admin
+                localStorage.setItem('mallToken', mallToken)
+                localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
+                data.router.push('/')
+            } else {
+                data.okLoading = false
+            }
+        }).catch(() => {
+            data.okLoading = false
+        })
+    },
+    onFinishFailed: (errorInfo: any) => {//登录表单验证失败
+        console.log('Failed:', errorInfo);
+    },
+
+})
 
 </script>
 
@@ -83,4 +119,4 @@ const onFinishFailed = (errorInfo: any) => {
     background-repeat: no-repeat;
     background-position: center center;
 }
-</style>
+</style>../../request/api/loginapi/login

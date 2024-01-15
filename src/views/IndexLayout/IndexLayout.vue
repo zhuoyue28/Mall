@@ -2,11 +2,24 @@
 <script setup lang="ts">
 // 依赖及外部引入
 import { RouterView } from 'vue-router'
+import { provide } from 'vue'
 // import { StepBackwardOutlined } from '@ant-design/icons-vue'
 // 内部组件引入 - 公共组件
 import MallLayoutMenu from '@/components/CommonComponents/LayOut/MallLayoutMenu.vue'
 import MallLayoutHeader from '@/components/CommonComponents/LayOut/MallLayoutHeader.vue'
+// 接口
+import { roleFindUserMenu } from "@/request/api/menu/menu";
 
+
+const getMenuList = () => {
+    roleFindUserMenu({ page: 1, limit: 999 }).then(res => {
+        console.log(res, '菜单');
+        provide('menuList', res.data)
+    })
+}
+
+// 菜单
+getMenuList()
 </script>
 
 <template>
