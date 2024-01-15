@@ -15,11 +15,12 @@ const router = createRouter({
       path: '/',
       name: 'IndexLayout',
       component: modules[url2],
+      redirect: '/menulist',
       children: [
         {
-          path: '/',
-          name: 'ViewIndex',
-          component: modules[url]
+          path: '/menulist',
+          name: 'menulist',
+          component: modules[`../views/SystemSettings/menuList.vue`]
         }
       ]
     },

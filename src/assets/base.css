@@ -6,3 +6,15 @@
 .ant-btn-primary {
   background: #4096ff;
 }
+
+.tableListClass{
+  @apply p-[24px] w-full pt-[12px]
+}
+
+.tableListHeaderClass{
+  @apply bg-[#fff] p-[16px] rounded-[4px] mt-[12px]
+}
+
+.tableListContentClass{
+  @apply p-[20px] mt-[12px] bg-[#fff]
+}

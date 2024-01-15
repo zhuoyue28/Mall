@@ -14,3 +14,6 @@ interface ItypeAPI<T> {
 // 用户当前菜单
 export const roleFindUserMenu = (data: any): Res<any> =>
     request.post("/role/findUserMenu", data);
+// 添加菜单
+export const menuStore = (data: any): Res<any> =>
+    request.post("/menu/store", data);

@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
+    ABreadcrumb: typeof import('ant-design-vue/es')['Breadcrumb']
+    ABreadcrumbItem: typeof import('ant-design-vue/es')['BreadcrumbItem']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
     AForm: typeof import('ant-design-vue/es')['Form']
@@ -20,6 +22,8 @@ declare module 'vue' {
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    ASelect: typeof import('ant-design-vue/es')['Select']
+    ATable: typeof import('ant-design-vue/es')['Table']
     Header: typeof import('./src/components/CommonComponents/LayOut/Header.vue')['default']
     HeaderPage: typeof import('./src/components/CommonComponents/LayOut/HeaderPage.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
