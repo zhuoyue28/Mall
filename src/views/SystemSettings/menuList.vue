@@ -24,11 +24,16 @@
         <a-modal v-model:open="data.addShow" title="新建菜单" @ok="methods.handleOk" @cancel="methods.handleCancel"
             :confirmLoading="data.addLoading" cancelText="取消" okText="添加">
             <a-form class="mt-[20px]" ref="formRef" :model="data.formState" name="basic" :label-col="{ span: 4 }"
-                :wrapper-col="{ span: 19 }" autocomplete="off" @finish="methods.onFinish"
-                @finishFailed="methods.onFinishFailed">
+                :wrapper-col="{ span: 19 }" autocomplete="off">
                 <a-form-item label="pid" name="pid" :rules="[{ required: true, message: '请选择pid!', trigger: 'change' }]">
-                    <a-select ref="select" v-model:value="data.formState.pid" :options="data.tableData"
-                        :fieldNames="{ lable: 'menu_name', value: 'id' }" placeholder="请选择pid"></a-select>
+                    <a-tree-select v-model:value="data.formState.pid" show-search style="width: 100%"
+                        :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }" placeholder="Please select" allow-clear
+                        tree-default-expand-all :tree-data="data.tableData" tree-node-filter-prop="label"
+                        :field-names="{ label: 'menu_name', value: 'id', options: 'children' }" />
+
+                    <!-- <a-select ref="select" v-model:value="data.formState.pid" :options="data.tableData"
+                            :field-names="{ label: 'menu_name', value: 'id', options: 'children' }"
+                            placeholder="请选择pid"></a-select> -->
                 </a-form-item>
                 <a-form-item label="菜单名" name="menu_name" :rules="[{ required: true, message: '请输入菜单名!' }]">
                     <a-input v-model:value="data.formState.menu_name" placeholder="请输入菜单名" />
@@ -52,10 +57,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import { roleFindUserMenu, menuStore } from "../../request/api/menu/menu"
+import { reactive, ref, inject } from 'vue';
+import { menuStore, menuList } from "../../request/api/menu/menu"
 import type { FormInstance } from 'ant-design-vue';
-
+import { useRouter } from 'vue-router';
 const formRef = ref<FormInstance>();// 新增弹窗ref
 
 const data = reactive({
@@ -100,33 +105,48 @@ const data = reactive({
     },
     addLoading: false,// 新增弹窗确定按钮loading
     isEdit: false,// 是否是编辑
+    router: useRouter(),// 路由
 })
 
 
 const methods = reactive({
     getData: () => {
         data.tableLoading = true
-        roleFindUserMenu({}).then(res => {
+        menuList({}).then(res => {
             data.tableData = res.data
             data.tableLoading = false
+            console.log(data.tableData, '获取菜单');
+
         })
     },
+    messageFn: inject('messageFn') as Function,//APP.vue传递方法
     Edit: (row: any) => {// 编辑
         console.log(row)
+        data.router.push('/test02')
     },
     handleOk: () => {// 新增弹窗确认
-        formRef.value!.validateFields()
+        formRef.value!.validateFields().then(() => {
+            console.log('通过');
+            data.addLoading = true
+            if (!data.isEdit) {
+                menuStore({ ...data.formState }).then(res => {
+                    if (res.code == 200) {
+                        data.addLoading = false
+                        methods.handleCancel()
+                        methods.getData()
+                        methods.messageFn('添加成功', 'success')
+                    }
+                })
+            }
+        }).catch(() => {
+            console.log('校验失败');
+        })
+        // formRef.value!.onSubmit()
     },
     handleCancel: () => {// 新增弹窗取消
         formRef.value!.resetFields()
         data.addShow = false
     },
-    onFinish: (values: any) => {// 新增表单验证成功
-        console.log('Success:', values);
-    },
-    onFinishFailed: (errorInfo: any) => {// 新增表单验证失败
-        console.log('Failed:', errorInfo);
-    }
 })
 
 // 获取表格数据

@@ -51,6 +51,7 @@
 <script lang="ts" setup>
 import { reactive, inject } from 'vue';
 import { login } from "@/request/api/loginapi/login"
+import { menuList } from '@/request/api/menu/menu';
 import { useRouter } from 'vue-router';
 interface FormState {//登录表单数据类型
     username: string;
@@ -94,7 +95,11 @@ const methods = reactive({
                 const adminInfo = res.data.admin
                 localStorage.setItem('mallToken', mallToken)
                 localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
-                data.router.push('/')
+                menuList({}).then(res => {
+                    localStorage.setItem('menuList', JSON.stringify(res.data))
+                    data.router.push('/')
+                })
+                
             } else {
                 data.okLoading = false
             }

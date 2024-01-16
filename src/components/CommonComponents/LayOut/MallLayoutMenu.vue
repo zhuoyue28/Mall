@@ -26,8 +26,8 @@ function getItem(
 }
 
 const items: ItemType[] = reactive([
-  getItem('Navigation One', 'sub1', () => h(MailOutlined), [
-    getItem('Option 1', '1'),
+  getItem('Navigation One', '/', () => h(MailOutlined), [
+    getItem('Option 1', '/menulist'),
     getItem('Option 2', '2'),
     getItem('Option 3', '3'),
     getItem('Option 4', '4'),

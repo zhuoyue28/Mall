@@ -17,3 +17,6 @@ export const roleFindUserMenu = (data: any): Res<any> =>
 // 添加菜单
 export const menuStore = (data: any): Res<any> =>
     request.post("/menu/store", data);
+// 查询所有菜单
+export const menuList = (data: any): Res<any> =>
+    request.post("/menu/list", data);
