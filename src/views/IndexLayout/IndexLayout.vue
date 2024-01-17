@@ -10,7 +10,7 @@ import MallLayoutHeader from '@/components/CommonComponents/LayOut/MallLayoutHea
 // 接口
 import { menuList } from "@/request/api/menu/menu";
 import router from "@/router/index"
-const modules: any = await import.meta.glob('../views/**/*.vue')  // 导入
+
 const getMenuList = () => {
     menuList({ page: 1, limit: 999 }).then(res => {
         console.log(res, '菜单');
@@ -19,31 +19,7 @@ const getMenuList = () => {
     })
 }
 
-function dynamicRouter(routerslist: any[]) {
-  console.log(routerslist, 'routerslist');
-  const list: any = []
-  routerslist.forEach((itemRouter: any, index: number) => {
-    list.push({
-      path: itemRouter.path,
-      name: itemRouter.menu_name,
-      redirect: itemRouter.children && itemRouter.children.length ? itemRouter.children[0].path : '',
-      component: modules[`${itemRouter.component}`] || '',
-      // component: () => import(`@/${itemRouter.component}`)
-    })
-    // 是否存在子集
-    if (itemRouter.children && itemRouter.children.length) {
-      list[index].children = dynamicRouter(itemRouter.children);
-    }
-  })
-  return list
-}
 
-
-const menulist = JSON.parse(localStorage.getItem('menuList') + '')
-dynamicRouter(menulist).forEach((item: any) => {
-  console.log(item, 'item');
-  router.addRoute('IndexLayout', item)
-})
 
 // 菜单
 getMenuList()

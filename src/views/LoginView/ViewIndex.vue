@@ -53,6 +53,14 @@ import { reactive, inject } from 'vue';
 import { login } from "@/request/api/loginapi/login"
 import { menuList } from '@/request/api/menu/menu';
 import { useRouter } from 'vue-router';
+import { useMenuData } from "@/stores/menu"
+
+
+const store = useMenuData()
+// console.log(store.menulist, 'pinia');
+// store.setMenuList([{ name: 123 }])
+// console.log(store.menulist, 'pinia');
+
 interface FormState {//登录表单数据类型
     username: string;
     password: string;
@@ -96,10 +104,12 @@ const methods = reactive({
                 localStorage.setItem('mallToken', mallToken)
                 localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
                 menuList({}).then(res => {
+                    store.setMenuList(res.data)
+                    console.log(store.menulist);
                     localStorage.setItem('menuList', JSON.stringify(res.data))
                     data.router.push('/')
                 })
-                
+
             } else {
                 data.okLoading = false
             }

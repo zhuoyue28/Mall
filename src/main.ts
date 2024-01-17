@@ -4,11 +4,16 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
-import router from './router'
+import { router, addRoutes } from './router/bag'
 
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+const boot = async () => {
+    await addRoutes()
+    app.use(createPinia())
+    app.use(router)
+    app.mount('#app')
+}
 
-app.mount('#app')
+boot()
+
