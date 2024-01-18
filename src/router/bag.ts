@@ -71,7 +71,7 @@ function createRouterTemplate(fatherRouter: any, item: any, Fpath?: string) {
 
 // 二、后置守卫
 router.afterEach((to) => {
-    // 标签抬头
+    // 标签抬头  - 自定义
     document.title = '活力广场-' + to.meta.title + '';
 
     // 进度条
