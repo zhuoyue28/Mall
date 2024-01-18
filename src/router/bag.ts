@@ -59,7 +59,7 @@ function createRouterTemplate(fatherRouter: any, item: any, Fpath?: string) {
         path: item.path,
         name: item.menu_name,
         meta: {
-            // title: item.meta.title, // 面包屑用
+            title: item.menu_name, // 面包屑用
             Fpath: Fpath || '/'
         },
         // /* @vite-ignore */ ：处理vite动态导入的警告
@@ -72,7 +72,7 @@ function createRouterTemplate(fatherRouter: any, item: any, Fpath?: string) {
 // 二、后置守卫
 router.afterEach((to) => {
     // 标签抬头
-    // document.title = to.meta.title;
+    document.title = '活力广场-' + to.meta.title + '';
 
     // 进度条
     // NProgress.done();
@@ -80,5 +80,5 @@ router.afterEach((to) => {
 
 
 // main.js 导入的为这个router
-export  { addRoutes, router }
+export { addRoutes, router }
 
