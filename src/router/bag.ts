@@ -3,25 +3,38 @@
 // 引入
 import router from "./index";
 // 判断用户无token 返回登录页提示有用
-
-// 进度条
-// import NProgress from 'nprogress';
+import { message } from 'ant-design-vue';
+import NProgress from "./NProgress"
 
 // 简单配置  进度条,可以不配置：在axios中我们不再做配置，以用来区分。
-// NProgress.inc(0.2)
-// NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
-
-
+NProgress.inc(0.2)
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 // 一、前置守卫
+
 router.beforeEach((to, from, next) => {
-    // 进度条
-    // NProgress.start();
-    // 1、动态路由
-    addRoutes();
-    // 2、中间处理（token）
-    // 3、最后放行
-    next();
-})
+    NProgress.start();
+    const mallToken = localStorage.getItem('mallToken')
+    // 在导航前执行操作，例如身份验证检查\
+    if (to.path == '/login') {
+      console.log('前往登录');
+      next()
+    } else if (!mallToken) {
+      message.error('未登录,请先登录')
+      next('/login'); // 重定向到登录页
+    } else {
+      next()
+    }
+  })
+  
+// router.beforeEach((to, from, next) => {
+//     // 进度条
+    
+//     // 1、动态路由
+//     // addRoutes();
+//     // 2、中间处理（token）
+//     // 3、最后放行
+//     next();
+// })
 
 // 动态路由获取：注:之后完善项目直接考虑在登录的时候直接获取
 // 直接缓存在 pinia 里
@@ -29,6 +42,7 @@ router.beforeEach((to, from, next) => {
 import { menuList } from '@/request/api/menu/menu'
 // import menuData from '@/components/menu2/menuData.json';
 async function addRoutes() {
+    NProgress.start();
     const menuData = await menuList({})
     // 1、后端数据
     createRouters(menuData.data);
@@ -75,7 +89,7 @@ router.afterEach((to) => {
     document.title = '活力广场-' + to.meta.title + '';
 
     // 进度条
-    // NProgress.done();
+    NProgress.done();
 })
 
 

@@ -29,6 +29,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/CommonComponents/LayOut/Header.vue')['default']
     HeaderPage: typeof import('./src/components/CommonComponents/LayOut/HeaderPage.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
+    Icondemo: typeof import('./src/components/CommonComponents/LayOut/icondemo.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']

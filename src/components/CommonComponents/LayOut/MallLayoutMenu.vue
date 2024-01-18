@@ -1,13 +1,15 @@
 <template>
   <div class="h-full overflow-y-auto w-[256px] menuDiv">
     <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px;" mode="inline" :open-keys="state.openKeys"
-      :items="items" @openChange="onOpenChange"></a-menu>
+      :items="items" @openChange="onOpenChange" @click="handleClick"></a-menu>
   </div>
 </template>
 <script lang="ts" setup>
-import { VueElement, h, reactive } from 'vue';
+import { VueElement, h, reactive, ref } from 'vue';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
-import type{ ItemType } from 'ant-design-vue';
+import type { ItemType } from 'ant-design-vue';
+import router from '@/router';
+import { menuList } from '@/request/api/menu/menu';
 
 function getItem(
   label: VueElement | string,
@@ -25,25 +27,33 @@ function getItem(
   } as ItemType;
 }
 
-const items: ItemType[] = reactive([
-  getItem('Navigation One', '/', () => h(MailOutlined), [
-    getItem('Option 1', '/menulist'),
-    getItem('Option 2', '2'),
-    getItem('Option 3', '3'),
-    getItem('Option 4', '4'),
-  ]),
-  getItem('Navigation Two', 'sub2', () => h(AppstoreOutlined), [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-  getItem('Navigation Three', 'sub4', () => h(SettingOutlined), [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-]);
+const items = ref<ItemType[]>([]);
+
+const setList = () => {
+  menuList({}).then((res: any) => {
+    let arr = res.data
+    console.log(arr, 'setList');
+    arr.forEach((item: any) => {
+      if (item.children && item.children.length > 0) {
+        let arr2 = item.children
+        let arr3: any = []
+        arr2.forEach((item2: any) => {
+          arr3.push(getItem(item2.menu_name, item2.path))
+        })
+        items.value.push(getItem(item.menu_name, item.path, h(AppstoreOutlined), arr3))
+        // items.value.push(getItem(item.menu_name, item.path, null, []))
+      } else {
+        items.value.push(getItem(item.menu_name, item.path, h(AppstoreOutlined)))
+      }
+    })
+  })
+}
+
+setList()
+
+
+
+
 
 const state = reactive({
   rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
@@ -58,12 +68,20 @@ const onOpenChange = (openKeys: string[]) => {
     state.openKeys = latestOpenKey ? [latestOpenKey] : [];
   }
 };
+
+const handleClick = (item: any, key: string, keyPath: string) => {
+
+  console.log(item, key, keyPath);
+  router.push({ path: item.key })
+
+}
+
 </script>
 
 
 <style lang="less" scoped>
 .menuDiv::-webkit-scrollbar {
-    display: none !important;
-  }
+  display: none !important;
+}
 </style>
 

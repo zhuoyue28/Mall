@@ -19,4 +19,4 @@ provide('messageFn', messageFn)
   <context-holder />
 </template>
 
-<style scoped></style>
+<style scoped lang="less"></style>
