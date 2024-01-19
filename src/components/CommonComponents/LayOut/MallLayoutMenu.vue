@@ -1,16 +1,45 @@
 <template>
   <div class="h-full overflow-y-auto w-[256px] menuDiv">
     <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px;" mode="inline" :open-keys="state.openKeys"
-      :items="items" @openChange="onOpenChange" @click="handleClick"></a-menu>
+      @openChange="onOpenChange" @click="handleClick">
+      <template v-for="(item) in items" :key="item.key">
+        <template v-if="!item.children || !item.children.length">
+          <a-menu-item :key="item.key">
+            <template #icon>
+              <component v-if="item.icon && item.icon != '/'" :is="item.icon" />
+            </template>
+            <span style="font-weight: 500; font-size: 14px">{{ item.label }}</span>
+          </a-menu-item>
+        </template>
+        <a-sub-menu :key="item.key" v-else>
+          <template #icon>
+            <component v-if="item.icon && item.icon != '/'" :is="item.icon" />
+          </template>
+          <template #title>
+            <span style="font-weight: 500; font-size: 14px">{{ item.label }}</span>
+          </template>
+          <a-menu-item v-for="child in item.children" :key="child.key">
+            <span style="font-weight: 500; font-size: 14px">{{ child.label }}</span>
+          </a-menu-item>
+
+        </a-sub-menu>
+      </template>
+
+
+    </a-menu>
   </div>
 </template>
 <script lang="ts" setup>
-import { VueElement, h, reactive, ref } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import { VueElement, reactive, ref } from 'vue';
+// import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import type { ItemType } from 'ant-design-vue';
 import router from '@/router';
 import { menuList } from '@/request/api/menu/menu';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+
+console.log(route, '------------');
 function getItem(
   label: VueElement | string,
   key: string,
@@ -27,7 +56,9 @@ function getItem(
   } as ItemType;
 }
 
-const items = ref<ItemType[]>([]);
+
+
+const items = ref<any[]>([]);
 
 const setList = () => {
   menuList({}).then((res: any) => {
@@ -40,10 +71,10 @@ const setList = () => {
         arr2.forEach((item2: any) => {
           arr3.push(getItem(item2.menu_name, item2.path))
         })
-        items.value.push(getItem(item.menu_name, item.path, h(AppstoreOutlined), arr3))
+        items.value.push(getItem(item.menu_name, item.path, item.icon, arr3))
         // items.value.push(getItem(item.menu_name, item.path, null, []))
       } else {
-        items.value.push(getItem(item.menu_name, item.path, h(AppstoreOutlined)))
+        items.value.push(getItem(item.menu_name, item.path, item.icon))
       }
     })
   })
@@ -55,10 +86,10 @@ setList()
 
 
 
-const state = reactive({
-  rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-  openKeys: ['sub1'],
-  selectedKeys: [],
+const state = reactive<{ rootSubmenuKeys: string[], openKeys: string[], selectedKeys: string[] }>({
+  rootSubmenuKeys: [],
+  openKeys: [route.meta.Fpath + ''],
+  selectedKeys: [route.path + ''],
 });
 const onOpenChange = (openKeys: string[]) => {
   const latestOpenKey: any = openKeys.find(key => state.openKeys.indexOf(key) === -1);
@@ -70,6 +101,7 @@ const onOpenChange = (openKeys: string[]) => {
 };
 
 const handleClick = (item: any, key: string, keyPath: string) => {
+
 
   console.log(item, key, keyPath);
   router.push({ path: item.key })
