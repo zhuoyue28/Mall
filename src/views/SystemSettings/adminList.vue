@@ -2,13 +2,13 @@
     <div class="tableListClass">
         <a-breadcrumb>
             <a-breadcrumb-item>系统设置</a-breadcrumb-item>
-            <a-breadcrumb-item><a href="">菜单管理</a></a-breadcrumb-item>
+            <a-breadcrumb-item><a href="">管理员管理</a></a-breadcrumb-item>
         </a-breadcrumb>
         <div class="tableListHeaderClass">
             <a-button type="primary" @click="() => {
                 data.addShow = true
                 data.isEdit = false
-            }">{{ data.isEdit ? '编辑菜单' : '新建菜单' }}</a-button>
+            }">新建菜单</a-button>
         </div>
         <div class="tableListContentClass">
             <a-table :dataSource="data.tableData" :columns="data.columns" rowKey="id" :loading="data.tableLoading">

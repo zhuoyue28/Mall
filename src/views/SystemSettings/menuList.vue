@@ -8,7 +8,7 @@
             <a-button type="primary" @click="() => {
                 data.addShow = true
                 data.isEdit = false
-            }">{{ data.isEdit ? '编辑菜单' : '新建菜单' }}</a-button>
+            }">新建菜单</a-button>
         </div>
         <div class="tableListContentClass">
             <a-table :dataSource="data.tableData" :columns="data.columns" rowKey="id" :loading="data.tableLoading">
