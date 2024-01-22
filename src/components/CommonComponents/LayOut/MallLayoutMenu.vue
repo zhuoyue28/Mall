@@ -1,14 +1,45 @@
 <template>
-  <div>
-    <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px" mode="inline" :open-keys="state.openKeys"
-      :items="items" @openChange="onOpenChange"></a-menu>
+  <div class="h-full overflow-y-auto w-[256px] menuDiv">
+    <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 256px;" mode="inline" :open-keys="state.openKeys"
+      @openChange="onOpenChange" @click="handleClick">
+      <template v-for="(item) in items" :key="item.key">
+        <template v-if="!item.children || !item.children.length">
+          <a-menu-item :key="item.key">
+            <template #icon>
+              <component v-if="item.icon && item.icon != '/'" :is="item.icon" />
+            </template>
+            <span style="font-weight: 500; font-size: 14px">{{ item.label }}</span>
+          </a-menu-item>
+        </template>
+        <a-sub-menu :key="item.key" v-else>
+          <template #icon>
+            <component v-if="item.icon && item.icon != '/'" :is="item.icon" />
+          </template>
+          <template #title>
+            <span style="font-weight: 500; font-size: 14px">{{ item.label }}</span>
+          </template>
+          <a-menu-item v-for="child in item.children" :key="child.key">
+            <span style="font-weight: 500; font-size: 14px">{{ child.label }}</span>
+          </a-menu-item>
+
+        </a-sub-menu>
+      </template>
+
+
+    </a-menu>
   </div>
 </template>
 <script lang="ts" setup>
-import { VueElement, h, reactive } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
-import type{ ItemType } from 'ant-design-vue';
+import { VueElement, reactive, ref } from 'vue';
+// import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import type { ItemType } from 'ant-design-vue';
+import router from '@/router';
+import { menuList } from '@/request/api/menu/menu';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+
+console.log(route, '------------');
 function getItem(
   label: VueElement | string,
   key: string,
@@ -25,30 +56,42 @@ function getItem(
   } as ItemType;
 }
 
-const items: ItemType[] = reactive([
-  getItem('Navigation One', 'sub1', () => h(MailOutlined), [
-    getItem('Option 1', '1'),
-    getItem('Option 2', '2'),
-    getItem('Option 3', '3'),
-    getItem('Option 4', '4'),
-  ]),
-  getItem('Navigation Two', 'sub2', () => h(AppstoreOutlined), [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-  getItem('Navigation Three', 'sub4', () => h(SettingOutlined), [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-]);
 
-const state = reactive({
-  rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-  openKeys: ['sub1'],
-  selectedKeys: [],
+
+const items = ref<any[]>([]);
+
+const setList = () => {
+  menuList({}).then((res: any) => {
+    let arr = res.data
+    console.log(arr, 'setList');
+    arr.forEach((item: any) => {
+      if (item.children && item.children.length > 0) {
+        let arr2 = item.children
+        let arr3: any = []
+        arr2.forEach((item2: any) => {
+          if(item2.is_menu == '3' ) return
+          arr3.push(getItem(item2.menu_name, item2.path))
+        })
+        items.value.push(getItem(item.menu_name, item.path, item.icon, arr3))
+        // items.value.push(getItem(item.menu_name, item.path, null, []))
+      } else {
+        if(item.is_menu == '3' ) return
+        items.value.push(getItem(item.menu_name, item.path, item.icon))
+      }
+    })
+  })
+}
+
+setList()
+
+
+
+
+
+const state = reactive<{ rootSubmenuKeys: string[], openKeys: string[], selectedKeys: string[] }>({
+  rootSubmenuKeys: [],
+  openKeys: [route.meta.Fpath + ''],
+  selectedKeys: [route.path + ''],
 });
 const onOpenChange = (openKeys: string[]) => {
   const latestOpenKey: any = openKeys.find(key => state.openKeys.indexOf(key) === -1);
@@ -58,5 +101,20 @@ const onOpenChange = (openKeys: string[]) => {
     state.openKeys = latestOpenKey ? [latestOpenKey] : [];
   }
 };
+
+const handleClick = (item: any, key: string, keyPath: string) => {
+  state.openKeys = [item.keyPath[0]];
+  console.log(item, key, keyPath);
+  router.push({ path: item.key })
+
+}
+
 </script>
+
+
+<style lang="less" scoped>
+.menuDiv::-webkit-scrollbar {
+  display: none !important;
+}
+</style>
 
