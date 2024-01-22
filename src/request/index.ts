@@ -26,7 +26,7 @@ request.interceptors.response.use(function (response) {
     const data = response.data
 
     if (data.code == 202) {
-        message.error('登录失败:' + data.message);
+        message.error(data.message);
     }
     if (data.code == 203) {
         message.error(data.message);

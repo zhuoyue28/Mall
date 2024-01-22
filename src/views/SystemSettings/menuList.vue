@@ -2,7 +2,7 @@
     <div class="tableListClass">
         <a-breadcrumb>
             <a-breadcrumb-item>系统设置</a-breadcrumb-item>
-            <a-breadcrumb-item><a href="">菜单管理</a></a-breadcrumb-item>
+            <a-breadcrumb-item>菜单管理</a-breadcrumb-item>
         </a-breadcrumb>
         <div class="tableListHeaderClass">
             <a-button type="primary" @click="() => {
