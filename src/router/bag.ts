@@ -57,14 +57,14 @@ function createRouters(result: any) {
             })
         }
         // 子路由为空
-        if (item.children && item.children.length === 0) {
+        if (item.children && item.children.length === 0 || !item.children) {
             createRouterTemplate('IndexLayout', item);
         }
 
-        // 3、递归层级
-        if (item.children && item.children.length > 0) {
-            createRouters(item.children);
-        }
+        // // 3、递归层级
+        // if (item.children && item.children.length > 0) {
+        //     createRouters(item.children);
+        // }
     });
 }
 // 把router 的动态路由进行封装

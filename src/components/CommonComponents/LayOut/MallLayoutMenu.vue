@@ -69,11 +69,13 @@ const setList = () => {
         let arr2 = item.children
         let arr3: any = []
         arr2.forEach((item2: any) => {
+          if(item2.is_menu == '3' ) return
           arr3.push(getItem(item2.menu_name, item2.path))
         })
         items.value.push(getItem(item.menu_name, item.path, item.icon, arr3))
         // items.value.push(getItem(item.menu_name, item.path, null, []))
       } else {
+        if(item.is_menu == '3' ) return
         items.value.push(getItem(item.menu_name, item.path, item.icon))
       }
     })
@@ -101,8 +103,7 @@ const onOpenChange = (openKeys: string[]) => {
 };
 
 const handleClick = (item: any, key: string, keyPath: string) => {
-
-
+  state.openKeys = [item.keyPath[0]];
   console.log(item, key, keyPath);
   router.push({ path: item.key })
 

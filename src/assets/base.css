@@ -8,7 +8,7 @@
 }
 
 .tableListClass{
-  @apply p-[24px] w-full pt-[12px]
+  @apply p-[24px] w-full pt-[12px] overflow-auto
 }
 
 .tableListHeaderClass{
@@ -16,5 +16,5 @@
 }
 
 .tableListContentClass{
-  @apply p-[20px] mt-[12px] bg-[#fff]
+  @apply p-[20px] mt-[12px] bg-[#fff] 
 }

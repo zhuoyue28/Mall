@@ -20,7 +20,9 @@ import MallLayoutHeader from '@/components/CommonComponents/LayOut/MallLayoutHea
                 <MallLayoutMenu  />
             </a-layout-sider>
             <a-layout-content>
-                <RouterView />
+                <div class="w-full h-full overflow-auto">
+                    <RouterView />
+                </div>
             </a-layout-content>
         </a-layout>
     </a-layout>

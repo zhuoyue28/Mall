@@ -20,3 +20,6 @@ export const menuStore = (data: any): Res<any> =>
 // 查询所有菜单
 export const menuList = (data: any): Res<any> =>
     request.post("/menu/list", data);
+// 编辑菜单
+export const menuUpdate = (data: any): Res<any> =>
+    request.post("/menu/update", data);
