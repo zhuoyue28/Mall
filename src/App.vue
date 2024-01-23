@@ -19,4 +19,12 @@ provide('messageFn', messageFn)
   <context-holder />
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+:deep(.ant-modal-body) {
+  padding-top: 24px !important;
+}
+
+:deep(.ant-modal-confirm-content) {
+  padding-top: 24px !important;
+}
+</style>

@@ -20,3 +20,18 @@ export const adminFindData = (data: any): Res<any> =>
 // 管理员修改开关
 export const adminUpdateStatus = (data: any): Res<any> =>
     request.post("/admin/updateStatus", data);
+// 管理员修改密码
+export const adminUpdatePassword = (data: any): Res<any> =>
+    request.post("/admin/updatePassword", data);
+// 添加管理员
+export const adminStore = (data: any): Res<any> =>
+    request.post("/admin/store", data);
+// 编辑管理员
+export const adminUpdate = (data: any): Res<any> =>
+    request.post("/admin/update", data);
+// 全部角色
+export const roleList = (data: any): Res<any> =>
+    request.post("/role/list", data);
+// 删除员工
+export const adminDelete = (data: any): Res<any> =>
+    request.post("/admin/delete", data);
