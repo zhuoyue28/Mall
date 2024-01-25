@@ -273,7 +273,12 @@ const methods = {
     },
     // 新增/编辑取消
     AddECancel() {
-        formAddE.value?.resetFields()
+        formAddE.value!.resetFields()
+        data.formAddE.role_name = ''
+        data.formAddE.description = ''
+        data.formAddE.rules = ''
+        data.formAddE.rules_copy = ''
+        data.checkedKeys = []
         data.AddEShow = false
     },
     getmenuList() {
