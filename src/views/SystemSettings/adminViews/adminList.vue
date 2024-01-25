@@ -26,7 +26,7 @@
         </div>
         <div class="tableListContentClass">
             <div class="mb-[12px]">
-                <a-button type="primary" @click="methods.add">新建角色</a-button>
+                <a-button type="primary" @click="methods.add">新建员工</a-button>
             </div>
             <a-table :dataSource="data.tableData" :columns="data.columns" rowKey="id" :loading="data.tableLoading"
                 :pagination="false">
@@ -40,7 +40,7 @@
                     </template>
                     <template v-if="column.dataIndex === 'status'">
                         <a-switch class="bg-[#898989]" :checkedValue="1" :uncheckedValue="0" v-model:checked="record.status"
-                            @change="(val) => { methods.statusEdit(val, record) }" />
+                            @change="(val:any) => { methods.statusEdit(val, record) }" />
                     </template>
                     <template v-if="column.dataIndex === 'action'">
                         <a-button type="link" @click="methods.ChangePassword(record.id)">修改密码</a-button>
@@ -206,7 +206,7 @@ const data = reactive({
     },
 })
 const methods = reactive({
-    getData: (page?: number, limit?: number) => {
+    getData: (page?: number, limit?: number) => {// 获取表格数据
         data.tableLoading = true
         adminList({
             ...data.formHeader, page: page || 1, limit: limit || 10
@@ -230,16 +230,16 @@ const methods = reactive({
     //     }
     //     data.router.push({ path: '/addAdmin', query: { id, type } })
     // },
-    statusEdit: (val, row: any) => {// 状态修改
+    statusEdit: (val:number, row: any) => {// 状态修改
         adminUpdateStatus({ status: val ? 1 : 0, id: row.id }).then(() => {
             methods.messageFn('修改成功', 'success')
             methods.getData()
         })
     },
-    pageChange: (val) => {// 分页
+    pageChange: (val:number) => {// 分页
         methods.getData(val, data.pagination.pageSize)
     },
-    ChangePassword: (id) => {// 修改密码 弹窗 打开
+    ChangePassword: (id:number) => {// 修改密码 弹窗 打开
         data.ResetPShow = true
         data.ResetPID = id
     },
@@ -267,7 +267,7 @@ const methods = reactive({
             data.ResetPLoading = false
         })
     },
-    checkPassword: (rule, value, callback) => {// 校验密码
+    checkPassword: (rule:any, value:any, callback:any) => {// 校验密码
         if (value === '') {
             callback(new Error('请输入确认密码'));
         } else if (value !== data.formResetP.password) {
@@ -408,8 +408,6 @@ const methods = reactive({
     }
 })
 
-
-
 // 获取表格数据
 methods.getData()
 
@@ -418,9 +416,4 @@ methods.getRoleList()
 
 </script>
 
-<style lang="scss" scoped>
-.nihao {
-    border-top: 1px solid #e8e8e8;
-    padding-top: 12px;
-}
-</style>
+<style lang="scss" scoped></style>

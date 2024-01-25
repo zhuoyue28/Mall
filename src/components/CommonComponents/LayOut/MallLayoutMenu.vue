@@ -34,7 +34,7 @@ import { VueElement, reactive, ref } from 'vue';
 // import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import type { ItemType } from 'ant-design-vue';
 import router from '@/router';
-import { menuList } from '@/request/api/menu/menu';
+import { roleFindUserMenu } from '@/request/api/menu/menu';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -61,7 +61,7 @@ function getItem(
 const items = ref<any[]>([]);
 
 const setList = () => {
-  menuList({}).then((res: any) => {
+  roleFindUserMenu({}).then((res: any) => {
     let arr = res.data
     console.log(arr, 'setList');
     arr.forEach((item: any) => {

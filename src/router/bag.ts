@@ -39,11 +39,11 @@ router.beforeEach((to, from, next) => {
 // 动态路由获取：注:之后完善项目直接考虑在登录的时候直接获取
 // 直接缓存在 pinia 里
 // 这里直接取数据，不请求
-import { menuList } from '@/request/api/menu/menu'
+import { roleFindUserMenu } from '@/request/api/menu/menu'
 // import menuData from '@/components/menu2/menuData.json';
 async function addRoutes() {
     NProgress.start();
-    const menuData = await menuList({})
+    const menuData = await roleFindUserMenu({})
     // 1、后端数据
     createRouters(menuData.data);
     console.log("router/index.js打印router已有的路由信息", router.getRoutes());
