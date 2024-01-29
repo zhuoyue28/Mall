@@ -18,13 +18,11 @@
     </div>
 </template>
 <script lang='ts' setup>
-import { ref, reactive } from 'vue';
+import {  reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { adminFindData } from '../../../request/api/adminList/index'
 const route = useRoute();
 
-
-const treeData = ref([])
 
 const formState = reactive({
     username: '',

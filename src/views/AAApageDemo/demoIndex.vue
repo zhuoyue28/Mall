@@ -1,8 +1,8 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item>系统设置</a-breadcrumb-item>
-            <a-breadcrumb-item>角色管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠卷管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠卷</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListHeaderClass'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">
@@ -23,32 +23,46 @@
 
         </div>
         <div class='tableListContentClass'>
-            <a-table :columns="data.tableColumns" :dataSource="data.tableData" :loading="data.tableLoading"
-                :pagination="false" rowKey="id" @change="methods.getData">
-                <template #status="scoped">
-                    <a-switch v-model:checked="scoped.record.status" :checkedValue="1" :uncheckedValue="0"
-                        @change="(val: boolean) => { methods.switchChange(val, scoped.record.id) }" />
-                </template>
-                <template #action="scoped">
-                    <a-space size="middle">
-                        <a-button type="link" @click="methods.details(scoped.record)">编辑</a-button>
-                        <a-button type="link" @click="methods.edit(scoped.record)">编辑</a-button>
-                        <a-button type="link" danger @click="methods.delete(scoped.record)">删除</a-button>
-                    </a-space>
-                </template>
-            </a-table>
-            <div class="flex mt-[12px] items-center justify-end">
-                <a-pagination v-model:current="data.tablePagination.current"
-                    v-model:pageSize="data.tablePagination.pageSize" :total="data.tablePagination.total" show-size-changer
-                    show-quick-jumper @change="methods.pageChange" />
-            </div>
+            <a-tabs v-model:activeKey="data.activeKey" @change="methods.tabsChange">
+                <a-tab-pane key="2" tab="商家劵">
+                    <a-table :columns="data.tableColumns" :dataSource="data.tableData" :loading="data.tableLoading"
+                        :pagination="false" rowKey="id" @change="methods.getData">
+                        <template #bodyCell="{ column, record }">
+                            <template v-if="column.dataIndex == 'platform_rebate'">
+                                <span>店铺{{ record.store_rebate }}%，平台{{ record.platform_rebate }}%</span>
+                            </template>
+                            <template v-if="column.dataIndex == 'status'">
+                                <span>{{ record.status == 1 ? '已上架' : '已下架' }}</span>
+                            </template>
+                            <template v-if="column.dataIndex == 'action'">
+                                <a-space size="middle">
+                                    <a-button type="link" @click="methods.details(record)">详情</a-button>
+                                    <a-button type="link" @click="methods.edit(record)">编辑</a-button>
+                                    <a-button type="link" danger @click="methods.delete(record)">删除</a-button>
+                                </a-space>
+                            </template>
+                        </template>
+
+                    </a-table>
+                    <div class="flex mt-[12px] items-center justify-end">
+                        <a-pagination v-model:current="data.tablePagination.current"
+                            v-model:pageSize="data.tablePagination.pageSize" :total="data.tablePagination.total"
+                            show-size-changer show-quick-jumper @change="methods.pageChange" />
+                    </div>
+
+                </a-tab-pane>
+                <a-tab-pane key="1" tab="平台劵"></a-tab-pane>
+            </a-tabs>
+
+
         </div>
     </div>
 </template>
 <script lang='ts' setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { onMounted } from 'vue'
-import { roleList } from '../../request/api/rolesList/index'
+import { couponList } from '../../request/api/coupon'
+
 
 // 变量
 const data = reactive({
@@ -64,33 +78,53 @@ const data = reactive({
     },
     tableColumns: [//表头
         {
-            title: '角色名称',
-            dataIndex: 'role_name',
-            key: 'role_name',
+            title: '创建时间',
+            dataIndex: 'create_time',
+            key: 'create_time',
         },
         {
-            title: '角色状态',
+            title: '店铺名称',
             dataIndex: 'status',
             key: 'status',
             slots: { customRender: 'status' },
         },
         {
-            title: '角色简介',
-            dataIndex: 'createTime',
-            key: 'createTime',
+            title: '优惠卷名称',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
-            title: '创建时间',
-            dataIndex: 'createTime',
-            key: 'createTime',
+            title: '优惠卷类型',
+            dataIndex: 'type_text',
+            key: 'type_text',
+        },
+        {
+            title: '优惠卷价格',
+            dataIndex: 'price',
+            key: 'price',
+        },
+        {
+            title: '有效期',
+            dataIndex: 'valid_day_text',
+            key: 'valid_day_text',
+        },
+        {
+            title: '优惠卷分成',
+            dataIndex: 'platform_rebate',
+            key: 'platform_rebate',
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+            key: 'status',
         },
         {
             title: '操作',
             dataIndex: 'action',
             key: 'action',
-            slots: { customRender: 'action' },
         },
     ],
+    activeKey: ref('2'),//1：平台卷 2：商家卷
 })
 
 // 方法
@@ -98,7 +132,7 @@ const methods = {
     // 获取数据
     getData(page?: number, pageSize?: number) {
         data.tableLoading = true
-        roleList({
+        couponList({
             page: page ? page : 1,
             limit: pageSize ? pageSize : 10,
             keyword: data.formHeader.keyword,
@@ -134,6 +168,9 @@ const methods = {
     // 开关
     switchChange(val: boolean, id: number) {
         console.log(val, id, '开关')
+    },
+    tabsChange(val: string) {
+        console.log(val, 'tabs')
     }
 }
 
