@@ -55,11 +55,7 @@
         </div>
 
         <a-modal v-model:open="data.exportvisible" title="生成兑换码" @ok="methods.exporthandleOk"
-            @cancel="methods.exporthandleCancel" 
-            :confirmLoading="data.exportLoading"
-            :okText="'导出'"
-            :cancelText="'取消'"
-            >
+            @cancel="methods.exporthandleCancel" :confirmLoading="data.exportLoading" :okText="'导出'" :cancelText="'取消'">
             <a-form :model="data.exportform" ref="exportForm" name="horizontal_login" layout="inline" autocomplete="off">
                 <a-form-item label="有效期" name="time" :rules="[{ required: true, message: '请选择有效期', },]">
                     <a-range-picker v-model:value="data.exportform.time" :show-time="{ format: 'HH:mm:ss' }"
@@ -215,6 +211,8 @@ const methods = {
                 data.exportvisible = false
                 message.success('导出成功')
                 data.exportLoading = false
+                exportForm.value?.resetFields()
+                data.exportform.time = []
             })
 
         })
