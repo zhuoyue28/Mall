@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AAlert: typeof import('ant-design-vue/es')['Alert']
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
     ABreadcrumb: typeof import('ant-design-vue/es')['Breadcrumb']
     ABreadcrumbItem: typeof import('ant-design-vue/es')['BreadcrumbItem']
@@ -29,9 +30,11 @@ declare module 'vue' {
     APagination: typeof import('ant-design-vue/es')['Pagination']
     ARadio: typeof import('ant-design-vue/es')['Radio']
     ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
+    ARangePicker: typeof import('ant-design-vue/es')['RangePicker']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpace: typeof import('ant-design-vue/es')['Space']
+    ASpin: typeof import('ant-design-vue/es')['Spin']
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATable: typeof import('ant-design-vue/es')['Table']

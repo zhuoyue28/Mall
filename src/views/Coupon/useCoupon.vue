@@ -4,14 +4,36 @@
             <a-breadcrumb-item>优惠卷管理</a-breadcrumb-item>
             <a-breadcrumb-item>优惠卷</a-breadcrumb-item>
         </a-breadcrumb>
-        <div class='tableListHeaderClass'>
-            <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">
-                <a-form-item label="员工名称" name="keyword">
-                    <a-input v-model:value="data.formHeader.keyword">
+        <div class='tableListHeaderClass h-auto'>
+            <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off"
+                style="height: 100%;">
+                <a-form-item label="优惠券名称" name="name">
+                    <a-input v-model:value="data.formHeader.name">
                         <template #prefix>
-                            <UserOutlined class="site-form-item-icon" />
+                            <BarcodeOutlined class="site-form-item-icon" />
                         </template>
                     </a-input>
+                </a-form-item>
+                <a-form-item label="创建时间" name="time">
+                    <a-range-picker v-model:value="time" :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss"
+                        :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
+                </a-form-item>
+                <!-- 优惠券类型 -->
+                <a-form-item label="优惠券类型" name="type">
+                    <a-select v-model:value="data.formHeader.type" style="width: 200px;">
+                        <a-select-option value="">全部</a-select-option>
+                        <a-select-option :value="1">满减</a-select-option>
+                        <a-select-option :value="2">代金券</a-select-option>
+                        <a-select-option :value="3">团购券</a-select-option>
+                    </a-select>
+                </a-form-item>
+                <!-- 状态 -->
+                <a-form-item label="状态" name="status">
+                    <a-select v-model:value="data.formHeader.status" style="width: 200px;">
+                        <a-select-option value="">全部</a-select-option>
+                        <a-select-option :value="1">已上架</a-select-option>
+                        <a-select-option :value="0">已下架</a-select-option>
+                    </a-select>
                 </a-form-item>
                 <a-form-item>
                     <a-button type="primary" @click="methods.getData()">查 询</a-button>
@@ -58,11 +80,11 @@
                             <a-button type="link" @click="methods.details(record)">详情</a-button>
                             <a-button type="link" @click="methods.edit(record)">编辑</a-button>
                             <a-button type="link" danger @click="methods.delete(record)">删除</a-button>
-                            <a-button type="link" @click="methods.edit(record)"
+                            <a-button type="link" @click="methods.Generate(record)"
                                 v-if="!Number(record.price)">生成优惠券码</a-button>
-                                <a-button type="link" @click="methods.edit(record)"
+                            <a-button type="link" @click="methods.Exchange(record)"
                                 v-if="!Number(record.price)">查看兑换记录</a-button>
-                            
+
                         </a-space>
                     </template>
                 </template>
@@ -73,24 +95,45 @@
                     v-model:pageSize="data.tablePagination.pageSize" :total="data.tablePagination.total" show-size-changer
                     show-quick-jumper @change="methods.pageChange" />
             </div>
-
-
         </div>
+        <a-modal v-model:open="data.Generatevisible" title="生成优惠券兑换码" @ok="methods.GenerateOK"
+            @cancel="methods.GenerateCancel" width="500px" okText="确定" cancelText="取消"
+            :confirmLoading="data.GeneratevisibLoading">
+            <a-form :model="data.Generateform" ref="Generateform" name="horizontal_login" autocomplete="off"
+                :labelCol="{ span: 5 }" :wrapperCol="{ span: 18 }">
+                <a-form-item label="生成数量" name="num" :rules="[{ required: true, message: '请输入生成数量' }]">
+                    <a-input-number style="width: 200px;" id="inputNumber" v-model:value="data.Generateform.num" :min="1"
+                        placeholder="请输入或选择" />
+                </a-form-item>
+                <!-- 设置有效期 -->
+                <a-form-item label="设置有效期" name="time" :rules="[{ required: true, message: '请选择有效期' }]">
+                    <a-range-picker v-model:value="data.Generateform.time" :show-time="{ format: 'HH:mm:ss' }"
+                        format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" />
+                </a-form-item>
+            </a-form>
+        </a-modal>
     </div>
 </template>
 <script lang='ts' setup>
 import { reactive, ref, h } from 'vue'
 import { onMounted } from 'vue'
-import { couponList, couponSetStatus, couponDel } from '../../request/api/coupon'
+import { couponList, couponSetStatus, couponDel, couponcreateCode } from '../../request/api/coupon'
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { WarningOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
+import { Dayjs } from 'dayjs';
+import type { FormInstance } from 'ant-design-vue';
 const router = useRouter()//路由
+const Generateform = ref<FormInstance>()// 新增/编辑表单
 // 变量
 const data = reactive({
     formHeader: {//表单头部
-        keyword: '',
+        name: '',
+        create_time_end: '',
+        create_time_start: '',
+        type: '',
+        status: ''
     },
     tableData: [],//表格数据
     tableLoading: false,//表格加载
@@ -196,8 +239,16 @@ const data = reactive({
     ],
     activeKey: ref('2'),//1：平台劵 2：商家劵
     content: '确定删除该优惠卷吗？',
-
+    Generatevisible: false,//生成优惠券兑换码
+    Generateform: {
+        num: '',
+        time: ref<Dayjs[]>([])
+    },
+    GenerateID: '',//生成优惠券兑换码id
+    GeneratevisibLoading: false,//生成优惠券兑换码加载
 })
+
+const time = ref<Dayjs[]>([])
 
 // 方法
 const methods = {
@@ -207,8 +258,13 @@ const methods = {
         couponList({
             page: page ? page : 1,
             limit: pageSize ? pageSize : 10,
-            keyword: data.formHeader.keyword,
-            source: data.activeKey
+            name: data.formHeader.name,
+            source: data.activeKey,
+            status: data.formHeader.status,
+            type: data.formHeader.type,
+            create_time: data.formHeader.create_time_start && data.formHeader.create_time_end
+                ?
+                [data.formHeader.create_time_start, data.formHeader.create_time_end] : '',
         }).then((res: any) => {
             console.log(res, 'res-----角色列表');
             data.tableData = res.data.data
@@ -221,6 +277,15 @@ const methods = {
     // 重置
     Repossess() {
         console.log('重置')
+        data.formHeader = {
+            name: '',
+            create_time_end: '',
+            create_time_start: '',
+            type: '',
+            status: ''
+        }
+        time.value = []
+        methods.getData()
     },
     // 新建
     add() {
@@ -287,7 +352,70 @@ const methods = {
                 message.success('操作成功')
             }
         })
+    },
+    onRangeOk(value: [Dayjs, Dayjs]) {
+        console.log(time.value, 'timevalue------------');
+
+        if (!value) {
+            data.formHeader.create_time_start = ''
+            data.formHeader.create_time_end = ''
+            return
+        }
+        console.log('onOk: ', value);
+        data.formHeader.create_time_start = value[0].format('YYYY-MM-DD HH:mm:ss')
+        data.formHeader.create_time_end = value[1].format('YYYY-MM-DD HH:mm:ss')
+    },
+    Generate(text: any) {
+        console.log(text, 'text');
+        data.GenerateID = text.id
+        data.Generatevisible = true
+    },
+    GenerateOK() {
+        console.log(data.Generateform, 'data.Generateform');
+        Generateform.value?.validate().then(() => {
+            data.GeneratevisibLoading = true
+            console.log('校验成功');
+            couponcreateCode({
+                coupon_id: data.GenerateID,
+                num: data.Generateform.num,
+                start_time: data.Generateform.time[0].format('YYYY-MM-DD HH:mm:ss'),
+                end_time: data.Generateform.time[1].format('YYYY-MM-DD HH:mm:ss'),
+            }).then(res => {
+                if (res.code == 200) {
+                    message.success('生成成功')
+                    data.Generatevisible = false
+                    data.Generateform = {
+                        num: '',
+                        time: []
+                    }
+                    data.GeneratevisibLoading = false
+                } else {
+                    data.GeneratevisibLoading = false
+                }
+            }).catch(() => {
+                data.GeneratevisibLoading = false
+            })
+        }).catch(() => {
+            console.log('校验失败');
+        })
+
+    },
+    GenerateCancel() {
+        console.log('取消');
+        data.Generateform = {
+            num: '',
+            time: []
+        }
+        data.Generatevisible = false
+    },
+
+    Exchange(text: any) {
+        router.push({
+            path: '/ExchangeRecords',
+            query: { id: text.id }
+        })
     }
+
 }
 
 

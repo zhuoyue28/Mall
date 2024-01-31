@@ -12,7 +12,7 @@
 }
 
 .tableListHeaderClass{
-  @apply bg-[#fff] p-[16px] rounded-[4px] mt-[12px]
+  @apply bg-[#fff] p-[16px] rounded-[4px] mt-[12px] 
 }
 
 .tableListContentClass{

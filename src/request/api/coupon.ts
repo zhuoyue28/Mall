@@ -29,5 +29,11 @@ export const couponDetails = (data: any): Res<any> =>
 // 优惠卷编辑
 export const couponEdit = (data: any): Res<any> =>
     request.post("/coupon/edit", data);
+// 生成优惠券兑换码
+export const couponcreateCode = (data: any): Res<any> =>
+    request.post("/coupon/createCode", data);
+// 兑换记录
+export const couponCodeList = (data: any): Res<any> =>
+    request.post("/coupon/codeList", data);
 
 
