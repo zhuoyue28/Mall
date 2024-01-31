@@ -4,7 +4,7 @@ import { message } from 'ant-design-vue';
 // 创建axios 实例
 const request = axios.create({
     baseURL: 'zyapi/' + 'admin',
-    timeout: 1000,
+    timeout: 10000,
     headers: { 'X-Custom-Header': 'foobar', 'Accept-Language': 'zh' }
 });
 
