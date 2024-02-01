@@ -110,7 +110,7 @@
             </div>
             <div class="flex justify-center">
                 <a-button type="primary" class="mr-[24px]" @click="methods.setTrueInput">确 定</a-button>
-                <a-button type="primary" @click="methods.setFalseInput">取 消</a-button>
+                <a-button type="default" @click="methods.setFalseInput">取 消</a-button>
             </div>
         </a-modal>
 
