@@ -293,7 +293,7 @@ const methods = {
                 message.success('操作成功')
                 data.inputShow = false
                 data.toExamineShow = false
-                data.inputNumber = 1
+                data.inputNumber = null
                 methods.getData()
             }
         })
@@ -302,8 +302,7 @@ const methods = {
     // 取消输入积分
     setFalseInput() {
         data.inputShow = false
-        data.inputNumber = 1
-        console.log('取消输入积分')
+        data.inputNumber = null
     },
     // 取消拒绝
     setCancel() {
