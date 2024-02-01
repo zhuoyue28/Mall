@@ -1,7 +1,7 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item @click="router.go(-1)" class=" cursor-pointer">轮播图管理</a-breadcrumb-item>
+            <a-breadcrumb-item>积分管理</a-breadcrumb-item>
             <a-breadcrumb-item>积分设置</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListContentClass'>
