@@ -8,17 +8,20 @@
         </a-breadcrumb>
         <div class='tableListContentClass'>
 
-            <a-form :model="data.formData" ref="formHeader" name="horizontal_login" autocomplete="off" style="width: 700px;"
+            <a-form :disabled="route.query.type == '3'" :model="data.formData" ref="formHeader" name="horizontal_login" autocomplete="off" style="width: 700px;"
                 :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }">
                 <a-form-item label="轮播图标题" name="title" :rules="[{ required: true, message: '请输入轮播图标题' }]">
                     <a-input v-model:value="data.formData.title" placeholder="请输入" />
                 </a-form-item>
 
-                <a-form-item label="轮播图" name="image" :rules="[{ required: true, message: '请上传轮播图' }]">
-                    <a-upload v-model:file-list="data.bannerfileList" name="file" list-type="picture-card"
+                <a-form-item   label="轮播图" name="image" :rules="[{ required: true, message: '请上传轮播图' }]">
+                    <a-upload  v-model:file-list="data.bannerfileList" name="file" list-type="picture-card"
                         class="avatar-uploader" :show-upload-list="false" action="/zyapi/admin/com/uploadeFile"
                         @change="methods.bannerhandleChange">
-                        <img v-if="data.formData.image" :src="data.formData.image" alt="avatar" />
+                        <a-image style="height: 100px;overflow-hidden"
+                         v-if="data.formData.image" :src="data.formData.image" alt="avatar"
+                         :preview="false"
+                         />
                         <div v-else>
                             <loading-outlined v-if="data.banneruplogoLoading"></loading-outlined>
                             <plus-outlined v-else></plus-outlined>
@@ -27,7 +30,7 @@
                     </a-upload>
                 </a-form-item>
 
-                <a-form-item label="跳转链接" name="jump_url" :rules="[{ required: true, message: '请输入跳转链接' }]">
+                <a-form-item label="跳转链接" name="jump_url" >
                     <a-input v-model:value="data.formData.jump_url" placeholder="请输入" />
                 </a-form-item>
 
@@ -41,7 +44,7 @@
                     <a-button class="ml-[120px]" type="primary" :disabled="route.query.type == '3'" @click="methods.submit"
                         :loading="data.submitLoading">提
                         交</a-button>
-                    <a-button class="ml-[24px]" type="default" @click="methods.goback">返 回</a-button>
+                    <a-button class="ml-[24px]" :disabled="false" type="default" @click="methods.goback">返 回</a-button>
                 </a-form-item>
 
             </a-form>

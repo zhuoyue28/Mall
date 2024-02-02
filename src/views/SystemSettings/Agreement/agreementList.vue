@@ -1,13 +1,10 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item>轮播图管理</a-breadcrumb-item>
+            <a-breadcrumb-item>系统设置</a-breadcrumb-item>
+            <a-breadcrumb-item>协议管理</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListContentClass'>
-            <!-- 添加按钮 -->
-            <div class="flex mb-[12px]">
-                <a-button type="primary" @click="methods.add">添加轮播图</a-button>
-            </div>
             <a-table :columns="data.tableColumns" :dataSource="data.tableData" :loading="data.tableLoading"
                 :pagination="false" rowKey="id" @change="methods.getData">
                 <template #bodyCell="{ column, record }">

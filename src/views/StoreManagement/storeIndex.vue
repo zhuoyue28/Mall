@@ -57,7 +57,7 @@
 <script lang='ts' setup>
 import { reactive, ref, h } from 'vue'
 import { onMounted } from 'vue'
-import { storeList, storeDel } from '../../request/api/storelist'
+import { storeList, storeDel, storeSetSwitch } from '../../request/api/storelist'
 import { Modal, message } from 'ant-design-vue';
 import { WarningOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
@@ -192,6 +192,12 @@ const methods = {
     // 开关
     switchChange(val: boolean, id: number) {
         console.log(val, id, '开关')
+        storeSetSwitch({ store_id: id, switch: val ? 1 : 2 }).then((res: any) => {
+            if (res.code == 200) {
+                message.success('操作成功')
+                methods.getData(data.tablePagination.current, data.tablePagination.pageSize)
+            }
+        })
     }
 }
 

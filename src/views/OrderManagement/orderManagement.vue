@@ -6,58 +6,62 @@
         <div class="tableListHeaderClass">
 
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">
-                <!-- 订单号 -->
-                <a-form-item label="订单号" name="sn">
-                    <a-input v-model:value="data.formHeader.sn" placeholder="请输入订单号" />
-                </a-form-item>
-                <!-- 创建时间 -->
-                <a-form-item label="创建时间" name="create_time">
-                    <a-range-picker :placeholder="['开始时间', '结束时间']" v-model:value="data.formHeader.create_time"
-                        :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" />
-                </a-form-item>
-                <!-- 订单状态 -->
-                <a-form-item label="订单状态" name="status">
-                    <a-select style="width: 200px;" v-model:value="data.formHeader.status" placeholder="请选择订单状态">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="10">待支付</a-select-option>
-                        <a-select-option :value="20">待使用</a-select-option>
-                        <a-select-option :value="30">已使用</a-select-option>
-                        <a-select-option :value="-1">取消订单</a-select-option>
-                        <a-select-option :value="-2">超时未支付</a-select-option>
-                        <a-select-option :value="-3">已退款(超时未使用)</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <!-- 是否结算 -->
-                <a-form-item label="是否结算" name="is_settlement">
-                    <a-select style="width: 200px;" v-model:value="data.formHeader.is_settlement" placeholder="请选择是否结算">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">未结算</a-select-option>
-                        <a-select-option :value="2">已结算</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <!-- 优惠券发放类型 -->
-                <a-form-item label="优惠券发放类型" name="coupon_type" class="mt-[12px]">
-                    <a-select style="width: 200px;" v-model:value="data.formHeader.coupon_type" placeholder="请选择优惠券发放类型">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">商家</a-select-option>
-                        <a-select-option :value="2">平台</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <!-- 优惠券类型 -->
-                <a-form-item label="优惠券类型" name="coupon_send_type" class="mt-[12px]">
-                    <a-select style="width: 200px;" v-model:value="data.formHeader.coupon_send_type" placeholder="请选择优惠券类型">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">满减券</a-select-option>
-                        <a-select-option :value="2">代金券</a-select-option>
-                        <a-select-option :value="3">团购券</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item class="mt-[12px]">
-                    <a-button type="primary" @click="methods.getData()">查 询</a-button>
-                </a-form-item>
-                <a-form-item class="mt-[12px]">
-                    <a-button type="default" @click="methods.Repossess()">重 置</a-button>
-                </a-form-item>
+                <a-flex wrap="wrap" gap="small">
+                    <!-- 订单号 -->
+                    <a-form-item label="订单号" name="sn">
+                        <a-input v-model:value="data.formHeader.sn" placeholder="请输入订单号" />
+                    </a-form-item>
+                    <!-- 创建时间 -->
+                    <a-form-item label="创建时间" name="create_time">
+                        <a-range-picker :placeholder="['开始时间', '结束时间']" v-model:value="data.formHeader.create_time"
+                            :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" />
+                    </a-form-item>
+                    <!-- 订单状态 -->
+                    <a-form-item label="订单状态" name="status">
+                        <a-select style="width: 200px;" v-model:value="data.formHeader.status" placeholder="请选择订单状态">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="10">待支付</a-select-option>
+                            <a-select-option :value="20">待使用</a-select-option>
+                            <a-select-option :value="30">已使用</a-select-option>
+                            <a-select-option :value="-1">取消订单</a-select-option>
+                            <a-select-option :value="-2">超时未支付</a-select-option>
+                            <a-select-option :value="-3">已退款(超时未使用)</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <!-- 是否结算 -->
+                    <a-form-item label="是否结算" name="is_settlement">
+                        <a-select style="width: 200px;" v-model:value="data.formHeader.is_settlement" placeholder="请选择是否结算">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">未结算</a-select-option>
+                            <a-select-option :value="2">已结算</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <!-- 优惠券发放类型 -->
+                    <a-form-item label="优惠券发放类型" name="coupon_type">
+                        <a-select style="width: 200px;" v-model:value="data.formHeader.coupon_type"
+                            placeholder="请选择优惠券发放类型">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">商家</a-select-option>
+                            <a-select-option :value="2">平台</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <!-- 优惠券类型 -->
+                    <a-form-item label="优惠券类型" name="coupon_send_type">
+                        <a-select style="width: 200px;" v-model:value="data.formHeader.coupon_send_type"
+                            placeholder="请选择优惠券类型">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">满减券</a-select-option>
+                            <a-select-option :value="2">代金券</a-select-option>
+                            <a-select-option :value="3">团购券</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="primary" @click="methods.getData()">查 询</a-button>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="default" @click="methods.Repossess()">重 置</a-button>
+                    </a-form-item>
+                </a-flex>
             </a-form>
 
 
@@ -118,7 +122,7 @@
 
 
         <!-- 结算弹窗 -->
-        <a-modal v-model:visible="data.settlementShow" title="结算" width="500px" :footer="null">
+        <a-modal v-model:open="data.settlementShow" title="结算" width="500px" :footer="null">
             <!-- 结算金额 -->
             <div class="text-[16px] font-[600] mb-[12px]">
                 <span>结算金额：</span>

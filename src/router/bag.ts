@@ -11,24 +11,28 @@ NProgress.inc(0.2)
 NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 // 一、前置守卫
 
+const modules: any = await import.meta.glob('../views/**/*.vue')  // 导入
+
+
+
 router.beforeEach((to, from, next) => {
     NProgress.start();
     const mallToken = localStorage.getItem('mallToken')
     // 在导航前执行操作，例如身份验证检查\
     if (to.path == '/login') {
-      console.log('前往登录');
-      next()
+        console.log('前往登录');
+        next()
     } else if (!mallToken) {
-      message.error('未登录,请先登录')
-      next('/login'); // 重定向到登录页
+        message.error('未登录,请先登录')
+        next('/login'); // 重定向到登录页
     } else {
-      next()
+        next()
     }
-  })
-  
+})
+
 // router.beforeEach((to, from, next) => {
 //     // 进度条
-    
+
 //     // 1、动态路由
 //     // addRoutes();
 //     // 2、中间处理（token）
@@ -76,8 +80,8 @@ function createRouterTemplate(fatherRouter: any, item: any, Fpath?: string) {
             title: item.menu_name, // 面包屑用
             Fpath: Fpath || '/'
         },
-        // /* @vite-ignore */ ：处理vite动态导入的警告
-        component: () => import(/* @vite-ignore */ `${item.component}`)
+       
+        component: modules[item.component]
     })
 
 }
@@ -86,7 +90,7 @@ function createRouterTemplate(fatherRouter: any, item: any, Fpath?: string) {
 // 二、后置守卫
 router.afterEach((to) => {
     // 标签抬头  - 自定义
-    document.title = '活力广场-' + to.meta.title + '';
+    document.title = '簇桥活力广场-' + to.meta.title + '';
 
     // 进度条
     NProgress.done();

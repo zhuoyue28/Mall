@@ -12,7 +12,7 @@
                 :pagination="false" rowKey="id" @change="methods.getData">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex == 'image'">
-                        <a-image :src="record.image" :width="100" />
+                        <a-image :src="record.image" :height="100" />
                     </template>
                     <template v-if="column.dataIndex == 'action'">
                         <a-space size="middle">

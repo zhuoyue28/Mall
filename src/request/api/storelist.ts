@@ -23,4 +23,7 @@ export const storeAddOrEdit = (data: any): Res<any> =>
 // 店铺详情
 export const storeDetails = (data: any): Res<any> =>
     request.post("/store/details", data);
+// 店铺开关
+export const storeSetSwitch = (data: any): Res<any> =>
+    request.post("/store/setSwitch", data);
 
