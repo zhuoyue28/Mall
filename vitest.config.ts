@@ -19,7 +19,7 @@ export default mergeConfig(
             importStyle: false // css in js
           })
         ]
-      })
+      }),
     ]
   })
 )
