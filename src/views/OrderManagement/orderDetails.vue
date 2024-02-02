@@ -76,7 +76,7 @@
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { orderDetails } from '../../request/api/order'
-import { message } from 'ant-design-vue'
+// import { message } from 'ant-design-vue'
 const router = useRouter()
 const route = useRoute()
 const order_id = ref(route.query.id)
