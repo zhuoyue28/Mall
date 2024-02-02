@@ -56,7 +56,7 @@
 
                 <a-form-item label="店铺" name="join_store">
                     <a-radio-group v-model:value="data.formState.join_store" name="radioGroup">
-                        <a-radio :value="0">全部</a-radio>
+                        <!-- <a-radio :value="0">全部</a-radio> -->
                         <a-radio :value="1">指定商家</a-radio>
                     </a-radio-group>
                 </a-form-item>
@@ -147,7 +147,7 @@ const data = reactive({
         type: 1,//优惠卷类型
         full: ref<null | number>(null),//满
         reduce: ref<null | number>(null),//减
-        join_store: 0,//店铺
+        join_store: 1,//店铺
         name: '',//优惠卷名称
         price: ref<null | number>(null),//优惠卷价格
         valid_day: ref<null | number>(null),//有效期

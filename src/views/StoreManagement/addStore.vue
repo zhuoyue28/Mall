@@ -25,7 +25,11 @@
                             <div class="ant-upload-text">上传</div>
                         </div>
                     </a-upload>
+                    <div>
+                        建议尺寸167pxx167px，图片格式为jpg、png、jpeg,图片大小为2M以内，最多上传1张
+                    </div>
                 </a-form-item>
+
 
                 <a-form-item label="店铺封面" name="cover" :rules="[{ required: true, message: '请上传店铺封面!' }]">
                     <a-upload v-model:file-list="data.coverfileList" name="file" list-type="picture-card"
@@ -38,7 +42,11 @@
                             <div class="ant-upload-text">上传</div>
                         </div>
                     </a-upload>
+                    <div>
+                        建议尺寸44pxx44px，图片格式为jpg、png、jpeg,图片大小为2M以内，最多上传1张
+                    </div>
                 </a-form-item>
+
 
                 <a-form-item label="店铺地址" name="location" :rules="[{ required: true, message: '请输入店铺地址!' }]">
                     <a-input v-model:value="data.formState.location" placeholder="请输入店铺地址" />

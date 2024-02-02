@@ -9,7 +9,11 @@
                 <a-flex wrap="wrap" gap="small">
                     <!-- 订单号 -->
                     <a-form-item label="订单号" name="sn">
-                        <a-input v-model:value="data.formHeader.sn" placeholder="请输入订单号" />
+                        <a-input v-model:value="data.formHeader.sn" placeholder="请输入订单号" >
+                            <template #prefix>
+                            <orderManagement class="site-form-item-icon" />
+                        </template>
+                        </a-input>
                     </a-form-item>
                     <!-- 创建时间 -->
                     <a-form-item label="创建时间" name="create_time">
