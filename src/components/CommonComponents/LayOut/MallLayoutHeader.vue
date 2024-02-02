@@ -48,7 +48,8 @@ const methods = reactive({
 
 <template>
     <div class=' w-full h-full flex justify-between items-center'>
-        <div class="text-[#fff] text-[20px] font-[700]">
+        <div class="text-[#fff] text-[20px] font-[700] flex items-center">
+            <img class="w-[40px] h-[40px] mr-[12px]" src="../../../assets/image/loginLogo.png" alt="">
             簇桥活力广场
         </div>
         <div class="flex items-center">
