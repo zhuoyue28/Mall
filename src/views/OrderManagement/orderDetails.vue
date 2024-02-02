@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="tableListContentClass mb-[12px]">
+        <div class="tableListContentClass mb-[12px]" v-if="false">
             <div class="font-[700] text-[16px] mb-[12px]">订单备注</div>
             <div>
                 <a-alert message="输入完成后，按回车（enter）键完成修改。" type="info" show-icon class="w-[350px] mb-[12px]" />

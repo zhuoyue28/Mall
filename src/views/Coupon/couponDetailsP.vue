@@ -125,8 +125,17 @@
                 </a-form-item>
 
                 <!-- 使用规则 -->
-                <a-form-item label="优惠卷规则" name="use_rule" :rules="[{ required: true, message: '请输入优惠卷规则!' }]">
+                <!-- <a-form-item label="优惠卷规则" name="use_rule" :rules="[{ required: true, message: '请输入优惠卷规则!' }]">
                     <a-textarea v-model:value="data.formState.use_rule" />
+                </a-form-item> -->
+
+                <a-form-item label="优惠卷规则" name="use_rule" :rules="[{ required: true, validator: data.detailsValidator }]">
+                    <div style="border: 1px solid #ccc;width: 900px;z-index: 10;">
+                        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
+                            mode="default" />
+                        <Editor style="height: 500px; overflow-y: hidden;" v-model="data.formState.use_rule"
+                            :defaultConfig="editorConfig" mode="default" @onCreated="handleCreated" />
+                    </div>
                 </a-form-item>
 
                 <a-form-item class="pl-[100px]">
@@ -161,14 +170,18 @@
 </template>
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { reactive, ref,shallowRef } from 'vue'
 import { message, type FormInstance } from 'ant-design-vue'
 import { couponAdd, couponDetails, couponEdit } from '@/request/api/coupon'
 import { storeList } from '@/request/api/storelist'
+import { comUploadeFile } from '@/request/api/activity'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 const route = useRoute()
 const router = useRouter()
 const formState = ref<FormInstance>() //表单 ref
+
 
 const data = reactive({
     formState: {
@@ -248,6 +261,13 @@ const data = reactive({
     store_arr: ref<any>([]),//店铺id
     selectedRowKeys: ref<any>([]),//选中的店铺id
     selectedRows: ref<any>([]),//选中的店铺id
+        detailsValidator: (rule: any, value: any, callback: any) => {
+        if (value == '' || value == '<p><br></p>' || value == '<p></p>') {
+            callback(new Error('请输入规则详情'))
+        } else {
+            callback()
+        }
+    },
 })
 
 const methods = {
@@ -400,6 +420,53 @@ const methods = {
         data.selectedRowKeys = selectedRowKeys
         data.selectedRows = selectedRows
     }
+}
+
+
+type InsertFnType = (url: string, alt: string, href: string) => void
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef()
+const toolbarConfig = {}
+// 编辑器配置
+const editorConfig = { // TS 语法
+    placeholder: '请输入内容...',
+    readOnly: route.query.type == '3' ? true : false,
+    MENU_CONF: {
+        // 配置上传图片
+        uploadImage: {
+            async customUpload(file: File, insertFn: InsertFnType) { // TS 语法
+                // async customUpload(file, insertFn) { // JS 语法
+                // file 即选中的文件
+                // 自己实现上传，并得到图片 url alt href
+                // 最后插入图片
+                // insertFn(url, alt, href)
+                const formData = await new FormData()
+                formData.append('file', file)
+                comUploadeFile(formData).then(res => {
+                    insertFn(res.data.path, '', '')
+                })
+            }
+        },
+        // 配置上传视频
+        uploadVideo: {
+            async customUpload(file: File, insertFn: InsertFnType) { // TS 语法
+                // async customUpload(file, insertFn) { // JS 语法
+                // file 即选中的文件
+                // 自己实现上传，并得到图片 url alt href
+                // 最后插入图片
+                // insertFn(url, alt, href)
+                const formData = await new FormData()
+                formData.append('file', file)
+                comUploadeFile(formData).then(res => {
+                    insertFn(res.data.path, '', '')
+                })
+            }
+        },
+    },
+}
+
+const handleCreated = (editor: any) => {
+    editorRef.value = editor // 记录 editor 实例，重要！
 }
 
 methods.getDetails() //获取详情
