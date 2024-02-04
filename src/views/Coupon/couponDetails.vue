@@ -83,9 +83,9 @@
                 </a-form-item>
 
                 <!-- 优惠券介绍 -->
-                <a-form-item label="优惠券介绍" name="intro" :rules="[{ required: true, message: '请输入优惠券介绍!' }]">
+                <!-- <a-form-item label="优惠券介绍" name="intro" :rules="[{ required: true, message: '请输入优惠券介绍!' }]">
                     <a-textarea v-model:value="data.formState.intro" />
-                </a-form-item>
+                </a-form-item> -->
 
                 <a-form-item label="优惠券分成" name="platform_rebate" :rules="[{ required: true, message: '请完整填写优惠劵分成' }]">
                     <div class="flex items-center">

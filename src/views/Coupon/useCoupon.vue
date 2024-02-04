@@ -8,41 +8,41 @@
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off"
                 style="height: 100%;">
                 <a-flex wrap="wrap" gap="small">
-                <a-form-item label="优惠券名称" name="name">
-                    <a-input v-model:value="data.formHeader.name">
-                        <template #prefix>
-                            <BarcodeOutlined class="site-form-item-icon" />
-                        </template>
-                    </a-input>
-                </a-form-item>
-                <a-form-item label="创建时间" name="time">
-                    <a-range-picker v-model:value="time" :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss"
-                        :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
-                </a-form-item>
-                <!-- 优惠券类型 -->
-                <a-form-item label="优惠券类型" name="type">
-                    <a-select v-model:value="data.formHeader.type" style="width: 200px;">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">满减券</a-select-option>
-                        <a-select-option :value="2">代金券</a-select-option>
-                        <a-select-option :value="3">团购券</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <!-- 状态 -->
-                <a-form-item label="状态" name="status">
-                    <a-select v-model:value="data.formHeader.status" style="width: 200px;">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">已上架</a-select-option>
-                        <a-select-option :value="0">已下架</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item>
-                    <a-button type="primary" @click="methods.getData()">查 询</a-button>
-                </a-form-item>
-                <a-form-item>
-                    <a-button type="default" @click="methods.Repossess()">重 置</a-button>
-                </a-form-item>
-            </a-flex>
+                    <a-form-item label="优惠券名称" name="name">
+                        <a-input v-model:value="data.formHeader.name">
+                            <template #prefix>
+                                <BarcodeOutlined class="site-form-item-icon" />
+                            </template>
+                        </a-input>
+                    </a-form-item>
+                    <a-form-item label="创建时间" name="time">
+                        <a-range-picker v-model:value="time" :show-time="{ format: 'HH:mm:ss' }"
+                            format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
+                    </a-form-item>
+                    <!-- 优惠券类型 -->
+                    <a-form-item label="优惠券类型" name="type">
+                        <a-select v-model:value="data.formHeader.type" style="width: 200px;">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">满减券</a-select-option>
+                            <a-select-option :value="2">代金券</a-select-option>
+                            <a-select-option :value="3">团购券</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <!-- 状态 -->
+                    <a-form-item label="状态" name="status">
+                        <a-select v-model:value="data.formHeader.status" style="width: 200px;">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">已上架</a-select-option>
+                            <a-select-option :value="0">已下架</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="primary" @click="methods.getData()">查 询</a-button>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="default" @click="methods.Repossess()">重 置</a-button>
+                    </a-form-item>
+                </a-flex>
             </a-form>
 
         </div>
@@ -59,11 +59,16 @@
                 <a-button type="primary" @click="methods.add">新建平台劵</a-button>
             </div>
             <a-table :columns="data.activeKey == '2' ? data.tableColumns : data.tableColumns1" :dataSource="data.tableData"
-                :loading="data.tableLoading" :pagination="false" rowKey="id" @change="methods.getData">
+                :loading="data.tableLoading" :pagination="false" rowKey="id" @change="methods.getData"
+                :scroll="{ x: 2000 }"
+                >
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex == 'platform_rebate'">
                         <span v-if="record.source == 2">店铺{{ record.store_rebate }}%，平台{{ record.platform_rebate }}%</span>
                         <span v-else>--</span>
+                    </template>
+                    <template v-if="column.dataIndex == 'store'">
+                        <span>{{ record.store?.name }}</span>
                     </template>
                     <template v-if="column.dataIndex == 'reduce'">
                         <span v-if="record.type == '1'">满{{ record.full }}元,减{{ record.reduce }}元</span>
@@ -152,8 +157,8 @@ const data = reactive({
         },
         {
             title: '店铺名称',
-            dataIndex: 'store_id',
-            key: 'store_id',
+            dataIndex: 'store',
+            key: 'store',
         },
         {
             title: '优惠券名称',
