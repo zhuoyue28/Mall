@@ -1,12 +1,13 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item>优惠卷管理</a-breadcrumb-item>
-            <a-breadcrumb-item>优惠卷</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListHeaderClass h-auto'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off"
                 style="height: 100%;">
+                <a-flex wrap="wrap" gap="small">
                 <a-form-item label="优惠券名称" name="name">
                     <a-input v-model:value="data.formHeader.name">
                         <template #prefix>
@@ -22,7 +23,7 @@
                 <a-form-item label="优惠券类型" name="type">
                     <a-select v-model:value="data.formHeader.type" style="width: 200px;">
                         <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">满减</a-select-option>
+                        <a-select-option :value="1">满减券</a-select-option>
                         <a-select-option :value="2">代金券</a-select-option>
                         <a-select-option :value="3">团购券</a-select-option>
                     </a-select>
@@ -41,6 +42,7 @@
                 <a-form-item>
                     <a-button type="default" @click="methods.Repossess()">重 置</a-button>
                 </a-form-item>
+            </a-flex>
             </a-form>
 
         </div>
@@ -154,22 +156,22 @@ const data = reactive({
             key: 'store_id',
         },
         {
-            title: '优惠卷名称',
+            title: '优惠券名称',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: '优惠卷内容',
+            title: '优惠券内容',
             dataIndex: 'reduce',
             key: 'reduce',
         },
         {
-            title: '优惠卷类型',
+            title: '优惠券类型',
             dataIndex: 'type_text',
             key: 'type_text',
         },
         {
-            title: '优惠卷价格',
+            title: '优惠券价格',
             dataIndex: 'price',
             key: 'price',
         },
@@ -179,7 +181,7 @@ const data = reactive({
             key: 'valid_day_text',
         },
         {
-            title: '优惠卷分成',
+            title: '优惠券分成',
             dataIndex: 'platform_rebate',
             key: 'platform_rebate',
         },
@@ -201,22 +203,22 @@ const data = reactive({
             key: 'create_time',
         },
         {
-            title: '优惠卷名称',
+            title: '优惠券名称',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: '优惠卷内容',
+            title: '优惠券内容',
             dataIndex: 'reduce',
             key: 'reduce',
         },
         {
-            title: '优惠卷类型',
+            title: '优惠券类型',
             dataIndex: 'type_text',
             key: 'type_text',
         },
         {
-            title: '优惠卷价格',
+            title: '优惠券价格',
             dataIndex: 'price',
             key: 'price',
         },
@@ -238,7 +240,7 @@ const data = reactive({
         },
     ],
     activeKey: ref('2'),//1：平台劵 2：商家劵
-    content: '确定删除该优惠卷吗？',
+    content: '确定删除该优惠券吗？',
     Generatevisible: false,//生成优惠券兑换码
     Generateform: {
         num: '',

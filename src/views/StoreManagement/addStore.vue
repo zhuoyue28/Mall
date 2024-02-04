@@ -18,7 +18,7 @@
                 <a-form-item label="店铺LOGO" name="logo" :rules="[{ required: true, message: '请上传店铺LOGO!' }]">
                     <a-upload v-model:file-list="data.fileList" name="file" list-type="picture-card" class="avatar-uploader"
                         :show-upload-list="false" action="/zyapi/admin/com/uploadeFile" @change="methods.handleChange">
-                        <img v-if="data.formState.logo" :src="data.formState.logo" alt="avatar" />
+                        <img  style="height: 100px;" v-if="data.formState.logo" :src="data.formState.logo" alt="avatar" />
                         <div v-else>
                             <loading-outlined v-if="data.uplogoLoading"></loading-outlined>
                             <plus-outlined v-else></plus-outlined>
@@ -35,7 +35,7 @@
                     <a-upload v-model:file-list="data.coverfileList" name="file" list-type="picture-card"
                         class="avatar-uploader" :show-upload-list="false" action="/zyapi/admin/com/uploadeFile"
                         @change="methods.coverhandleChange">
-                        <img v-if="data.formState.cover" :src="data.formState.cover" alt="avatar" />
+                        <img style="height: 100px;" v-if="data.formState.cover" :src="data.formState.cover" alt="avatar" />
                         <div v-else>
                             <loading-outlined v-if="data.upcoverLoading"></loading-outlined>
                             <plus-outlined v-else></plus-outlined>
@@ -87,13 +87,9 @@
                 <a-form-item class="pl-[100px]">
                     <a-button type="primary" @click="methods.submit" class="mr-[20px]" :loading="data.submitLoading">提
                         交</a-button>
-                    <a-button type="default" @click="methods.cancel">取 消</a-button>
+                    <a-button type="default" @click="methods.cancel" :disabled="false">返 回</a-button>
                 </a-form-item>
             </a-form>
-
-            <div class="pl-[100px]">
-                <a-button type="default" @click="methods.cancel">返 回</a-button>
-            </div>
         </div>
     </div>
 </template>

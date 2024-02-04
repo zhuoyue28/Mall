@@ -1,7 +1,7 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item>优惠卷管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券管理</a-breadcrumb-item>
             <a-breadcrumb-item>停车劵</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListHeaderClass'>

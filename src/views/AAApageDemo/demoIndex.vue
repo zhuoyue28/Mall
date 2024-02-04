@@ -1,8 +1,8 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item>优惠卷管理</a-breadcrumb-item>
-            <a-breadcrumb-item>优惠卷</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListHeaderClass'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">
@@ -89,17 +89,17 @@ const data = reactive({
             slots: { customRender: 'status' },
         },
         {
-            title: '优惠卷名称',
+            title: '优惠券名称',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: '优惠卷类型',
+            title: '优惠券类型',
             dataIndex: 'type_text',
             key: 'type_text',
         },
         {
-            title: '优惠卷价格',
+            title: '优惠券价格',
             dataIndex: 'price',
             key: 'price',
         },
@@ -109,7 +109,7 @@ const data = reactive({
             key: 'valid_day_text',
         },
         {
-            title: '优惠卷分成',
+            title: '优惠券分成',
             dataIndex: 'platform_rebate',
             key: 'platform_rebate',
         },
@@ -124,7 +124,7 @@ const data = reactive({
             key: 'action',
         },
     ],
-    activeKey: ref('2'),//1：平台卷 2：商家卷
+    activeKey: ref('2'),//1：平台券 2：商家券
 })
 
 // 方法

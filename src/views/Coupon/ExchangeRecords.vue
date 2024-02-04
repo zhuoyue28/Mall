@@ -1,8 +1,8 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item @click="router.go(-1)" class=" cursor-pointer">优惠卷管理</a-breadcrumb-item>
-            <a-breadcrumb-item>优惠卷</a-breadcrumb-item>
+            <a-breadcrumb-item @click="router.go(-1)" class=" cursor-pointer">优惠券管理</a-breadcrumb-item>
+            <a-breadcrumb-item>优惠券</a-breadcrumb-item>
         </a-breadcrumb>
         <div class='tableListHeaderClass'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">

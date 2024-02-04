@@ -20,8 +20,8 @@
                     </a-input>
                 </a-form-item>
                 <a-form-item label="注册时间" name="time">
-                    <a-range-picker :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss"
-                        :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
+                    <a-range-picker v-model:value="data.formHeader.time" :show-time="{ format: 'HH:mm:ss' }"
+                        format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
                 </a-form-item>
                 <a-form-item>
                     <a-button type="primary" @click="methods.getData()">查 询</a-button>
@@ -54,7 +54,7 @@
     </div>
 </template>
 <script lang='ts' setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { onMounted } from 'vue'
 import { userList } from "../../request/api/userlist"
 import { Dayjs } from 'dayjs';
@@ -69,6 +69,7 @@ const data = reactive({
         keyword_phone: '',
         create_time_end: '',
         create_time_start: '',
+        time: ref<[Dayjs, Dayjs] | []>()
     },
     tableData: [],//表格数据
     tableLoading: false,//表格加载
@@ -127,6 +128,14 @@ const methods = {
     // 重置
     Repossess() {
         console.log('重置')
+        data.formHeader.keyword_nickname = ''
+        data.formHeader.keyword_phone = ''
+        data.formHeader.create_time_start = ''
+        data.formHeader.create_time_end = ''
+        data.formHeader.time = []
+
+        methods.getData()
+
     },
     // 详情
     details(text: any) {

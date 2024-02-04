@@ -11,22 +11,22 @@ interface ItypeAPI<T> {
 }
 
 
-// 优惠卷列表
+// 优惠券列表
 export const couponList = (data: any): Res<any> =>
     request.post("/coupon/list", data);
-// 优惠卷添加
+// 优惠券添加
 export const couponAdd = (data: any): Res<any> =>
     request.post("/coupon/add", data);
-// 优惠卷上下架
+// 优惠券上下架
 export const couponSetStatus = (data: any): Res<any> =>
     request.post("/coupon/setStatus", data);
-// 优惠卷删除
+// 优惠券删除
 export const couponDel = (data: any): Res<any> =>
     request.post("/coupon/del", data);
-// 优惠卷详情
+// 优惠券详情
 export const couponDetails = (data: any): Res<any> =>
     request.post("/coupon/details", data);
-// 优惠卷编辑
+// 优惠券编辑
 export const couponEdit = (data: any): Res<any> =>
     request.post("/coupon/edit", data);
 // 生成优惠券兑换码

@@ -25,7 +25,7 @@ console.log(data.adminInfo, 'data.adminInfo');
 const methods = reactive({
     LoginOut: () => { //确认退出登录
         Modal.confirm({
-            title: '登出提示',
+            title: '退出提示',
             content: data.content,
             okText: '确认',
             cancelText: '取消',

@@ -1,10 +1,10 @@
 <template>
     <div class='tableListClass'>
         <a-breadcrumb>
-            <a-breadcrumb-item @click="$router.go(-1)" class=" cursor-pointer">优惠卷管理</a-breadcrumb-item>
-            <a-breadcrumb-item @click="$router.go(-1)" class=" cursor-pointer">优惠卷</a-breadcrumb-item>
+            <a-breadcrumb-item @click="$router.go(-1)" class=" cursor-pointer">优惠券管理</a-breadcrumb-item>
+            <a-breadcrumb-item @click="$router.go(-1)" class=" cursor-pointer">优惠券</a-breadcrumb-item>
             <a-breadcrumb-item>
-                {{ route.query.type == '1' ? '新建商家劵' : route.query.type == '2' ? '编辑商家劵' : '优惠卷详情' }}
+                {{ route.query.type == '1' ? '新建商家劵' : route.query.type == '2' ? '编辑商家劵' : '优惠券详情' }}
             </a-breadcrumb-item>
         </a-breadcrumb>
         <!-- <div class='tableListHeaderClass'>
@@ -14,7 +14,7 @@
             <a-form :disabled="route.query.type == '3'" :model="data.formState" ref="formState" name="horizontal_login"
                 autocomplete="off" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }" style="max-width: 900px;">
 
-                <a-form-item label="优惠卷类型" name="type">
+                <a-form-item label="优惠券类型" name="type">
                     <a-radio-group v-model:value="data.formState.type" name="radioGroup">
                         <a-radio :value="1">满减劵</a-radio>
                         <a-radio :value="2">代金劵</a-radio>
@@ -23,8 +23,8 @@
                 </a-form-item>
 
 
-                <a-form-item v-if="data.formState.type == 1" label="优惠卷内容" name="full"
-                    :rules="[{ required: true, message: '优惠卷内容!' }]">
+                <a-form-item v-if="data.formState.type == 1" label="优惠券内容" name="full"
+                    :rules="[{ required: true, message: '优惠券内容!' }]">
                     <div class="flex items-center">
                         满：<a-input-number v-model:value="data.formState.full" :min="0" addon-after="元" />
                         <span class="ml-[10px]">，</span>
@@ -34,14 +34,14 @@
                     </div>
                 </a-form-item>
 
-                <a-form-item v-if="data.formState.type == 2" label="优惠卷内容" name="reduce"
+                <a-form-item v-if="data.formState.type == 2" label="优惠券内容" name="reduce"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
 
                     <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
 
                 </a-form-item>
 
-                <a-form-item v-if="data.formState.type == 3" label="优惠卷内容" name="full"
+                <a-form-item v-if="data.formState.type == 3" label="优惠券内容" name="full"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
                     <div class="flex items-center">
                         <a-input-number v-model:value="data.formState.full" :min="0" addon-after="元" />
@@ -70,11 +70,11 @@
                     </a-select>
                 </a-form-item>
 
-                <a-form-item label="优惠卷名称" name="name" :rules="[{ required: true, message: '请输入店铺名称!' }]">
+                <a-form-item label="优惠券名称" name="name" :rules="[{ required: true, message: '请输入店铺名称!' }]">
                     <a-input v-model:value="data.formState.name" />
                 </a-form-item>
 
-                <a-form-item label="优惠卷价格" name="price" :rules="[{ required: true, message: '请输入店铺价格!' }]">
+                <a-form-item label="优惠券价格" name="price" :rules="[{ required: true, message: '请输入店铺价格!' }]">
                     <a-input-number v-model:value="data.formState.price" :min="1" :max="100" addon-after="元" />
                 </a-form-item>
 
@@ -82,12 +82,12 @@
                     <a-input-number v-model:value="data.formState.valid_day" :min="1" :max="100" addon-after="天" />
                 </a-form-item>
 
-                <!-- 优惠卷介绍 -->
-                <a-form-item label="优惠卷介绍" name="intro" :rules="[{ required: true, message: '请输入优惠卷介绍!' }]">
+                <!-- 优惠券介绍 -->
+                <a-form-item label="优惠券介绍" name="intro" :rules="[{ required: true, message: '请输入优惠券介绍!' }]">
                     <a-textarea v-model:value="data.formState.intro" />
                 </a-form-item>
 
-                <a-form-item label="优惠卷分成" name="platform_rebate" :rules="[{ required: true, message: '请完整填写优惠劵分成' }]">
+                <a-form-item label="优惠券分成" name="platform_rebate" :rules="[{ required: true, message: '请完整填写优惠劵分成' }]">
                     <div class="flex items-center">
                         店铺：<a-input-number v-model:value="data.formState.store_rebate" :min="1" :max="100"
                             addon-after="%" />
@@ -100,11 +100,11 @@
                 </a-form-item>
 
                 <!-- 使用规则 -->
-                <!-- <a-form-item label="优惠卷规则" name="use_rule" :rules="[{ required: true, message: '请输入优惠卷规则!' }]">
+                <!-- <a-form-item label="优惠券规则" name="use_rule" :rules="[{ required: true, message: '请输入优惠券规则!' }]">
                     <a-textarea v-model:value="data.formState.use_rule" />
                 </a-form-item> -->
 
-                <a-form-item label="优惠卷规则" name="use_rule" :rules="[{ required: true, validator: data.detailsValidator }]">
+                <a-form-item label="优惠券规则" name="use_rule" :rules="[{ required: true, validator: data.detailsValidator }]">
                     <div style="border: 1px solid #ccc;width: 900px;z-index: 10;">
                         <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
                             mode="default" />
@@ -144,15 +144,15 @@ const formState = ref<FormInstance>()//表单 ref
 
 const data = reactive({
     formState: {
-        type: 1,//优惠卷类型
+        type: 1,//优惠券类型
         full: ref<null | number>(null),//满
         reduce: ref<null | number>(null),//减
         join_store: 1,//店铺
-        name: '',//优惠卷名称
-        price: ref<null | number>(null),//优惠卷价格
+        name: '',//优惠券名称
+        price: ref<null | number>(null),//优惠券价格
         valid_day: ref<null | number>(null),//有效期
-        intro: '',//优惠卷介绍
-        platform_rebate: ref<null | number>(null),//优惠卷分成
+        intro: '',//优惠券介绍
+        platform_rebate: ref<null | number>(null),//优惠券分成
         use_rule: '',//使用规则
         store_rebate: ref<null | number>(null),//店铺分成
         store_id: ref<any>(null),//店铺id
