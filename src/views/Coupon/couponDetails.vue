@@ -89,12 +89,12 @@
 
                 <a-form-item label="优惠券分成" name="platform_rebate" :rules="[{ required: true, message: '请完整填写优惠劵分成' }]">
                     <div class="flex items-center">
-                        店铺：<a-input-number v-model:value="data.formState.store_rebate" :min="1" :max="100"
-                            addon-after="%" />
+                        店铺：<a-input-number v-model:value="data.formState.store_rebate" :min="1" :max="100" addon-after="%"
+                            @change="methods.store_rebateChange" />
                         <span class="ml-[10px]">，</span>
                         平台：<a-form-item-rest>
-                            <a-input-number v-model:value="data.formState.platform_rebate" :min="1" :max="100"
-                                addon-after="%" />
+                            <a-input-number :disabled="true" v-model:value="data.formState.platform_rebate" :min="1"
+                                :max="100" addon-after="%" />
                         </a-form-item-rest>
                     </div>
                 </a-form-item>
@@ -227,6 +227,9 @@ const methods = {
                 data.storeList = res.data.data
             }
         })
+    },
+    store_rebateChange() {
+        data.formState.platform_rebate = 100 - (data.formState.store_rebate ? data.formState.store_rebate : 0)
     }
 }
 

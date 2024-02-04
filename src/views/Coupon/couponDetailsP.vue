@@ -98,12 +98,12 @@
                         <template #bodyCell="{ column, record,index }">
                             <template v-if="column.dataIndex == 'platform_rebate'">
                                 <a-form-item-rest>
-                                    <a-input-number :disabled="true" v-model:value="record.platform_rebate" :min="0" addon-after="元" />
+                                    <a-input-number :disabled="true" v-model:value="record.platform_rebate" :min="0" addon-after="%" />
                                 </a-form-item-rest>
                             </template>
                             <template v-if="column.dataIndex == 'store_rebate'">
                                 <a-form-item-rest>
-                                    <a-input-number @change="(val:any)=>{methods.storeRebatechange(val,column,index)}" v-model:value="record.store_rebate" :min="0" addon-after="元" />
+                                    <a-input-number @change="(val:any)=>{methods.storeRebatechange(val,column,index)}" v-model:value="record.store_rebate" :min="0" addon-after="%" />
                                 </a-form-item-rest>
                             </template>
                             <template v-if="column.dataIndex == 'store_perk'">
