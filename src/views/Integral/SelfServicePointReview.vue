@@ -7,15 +7,15 @@
         <div class='tableListHeaderClass h-auto'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off"
                 style="height: 100%;">
-                <a-form-item label="用户名称" name="name">
-                    <a-input v-model:value="data.formHeader.name">
+                <a-form-item label="用户名称" name="nickname">
+                    <a-input v-model:value="data.formHeader.nickname">
                         <template #prefix>
                             <StarOutlined class="site-form-item-icon" />
                         </template>
                     </a-input>
                 </a-form-item>
-                <a-form-item label="手机号码" name="name">
-                    <a-input v-model:value="data.formHeader.name">
+                <a-form-item label="手机号码" name="phone">
+                    <a-input v-model:value="data.formHeader.phone">
                         <template #prefix>
                             <PhoneOutlined class="site-form-item-icon" />
                         </template>
@@ -26,12 +26,12 @@
                         :placeholder="['开始时间', '结束时间']" />
                 </a-form-item>
                 <!-- 优惠券类型 -->
-                <a-form-item label="审核状态" name="type">
-                    <a-select v-model:value="data.formHeader.type" style="width: 200px;">
+                <a-form-item label="审核状态" name="status">
+                    <a-select v-model:value="data.formHeader.status" style="width: 200px;">
                         <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">满减</a-select-option>
-                        <a-select-option :value="2">代金券</a-select-option>
-                        <a-select-option :value="3">团购券</a-select-option>
+                        <a-select-option :value="1">待审核</a-select-option>
+                        <a-select-option :value="2">已审核</a-select-option>
+                        <a-select-option :value="-1">已拒绝</a-select-option>
                     </a-select>
                 </a-form-item>
 
@@ -105,7 +105,7 @@
         <a-modal v-model:open="data.inputShow" title="确认提示" :footer="false" width="500px">
             <a-alert message="确认通过此审核吗?" type="success" show-icon />
             <div class="flex justify-center mb-[24px] mt-[12px] items-center">
-             <a-input-number class="flex-1 ml-[12px]" id="inputNumber" placeholder="请输入积分"
+                <a-input-number class="flex-1 ml-[12px]" id="inputNumber" placeholder="请输入积分"
                     v-model:value="data.inputNumber" :min="1" />
             </div>
             <div class="flex justify-center">
@@ -123,15 +123,13 @@ import { onMounted } from 'vue'
 import { pointList, pointRefuse, pointAgree } from '../../request/api/Score'
 import { message } from 'ant-design-vue';
 import { Modal } from 'ant-design-vue';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 // 变量
 const data = reactive({
     formHeader: {//表单头部
-        name: '',
-        create_time_end: '',
-        create_time_start: '',
-        type: '',
+        nickname: '',
+        phone: '',
         status: ''
     },
     tableData: [],//表格数据
@@ -195,12 +193,12 @@ const methods = {
         pointList({
             page: page ? page : 1,
             limit: pageSize ? pageSize : 10,
-            name: data.formHeader.name,
+            nickname: data.formHeader.nickname,
             status: data.formHeader.status,
-            type: data.formHeader.type,
-            create_time: data.formHeader.create_time_start && data.formHeader.create_time_end
-                ?
-                [data.formHeader.create_time_start, data.formHeader.create_time_end] : '',
+            phone: data.formHeader.phone,
+            time: time.value.length ?
+                [dayjs(time.value[0]).format('YYYY-MM-DD HH:mm:ss'), dayjs(time.value[1]).format('YYYY-MM-DD HH:mm:ss')]
+                : [],
         }).then((res: any) => {
             console.log(res, 'res-----积分审核列表');
             data.tableData = res.data.data
@@ -214,10 +212,8 @@ const methods = {
     Repossess() {
         console.log('重置')
         data.formHeader = {
-            name: '',
-            create_time_end: '',
-            create_time_start: '',
-            type: '',
+            nickname: '',
+            phone: '',
             status: ''
         }
         time.value = []
