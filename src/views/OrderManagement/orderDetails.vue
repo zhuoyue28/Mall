@@ -46,10 +46,15 @@
             <div>
                 <a-descriptions :bordered="true" :column="1">
                     <a-descriptions-item label="优惠券名称">{{ orderDetail.coupon_name }}</a-descriptions-item>
-                    <a-descriptions-item label="优惠券类型">{{ JSON.parse(orderDetail.product_json)?.type === 1 ? '满减券'
-                        : JSON.parse(orderDetail.product_json)?.type === 2 ? '代金券' : '团购券' }}</a-descriptions-item>
-                    <a-descriptions-item label="优惠券发放类型">{{ orderDetail.coupon_type == 1 ? '商家' : '平台' }}</a-descriptions-item>
-                    <a-descriptions-item label="优惠券金额">{{ JSON.parse(orderDetail.product_json)?.price }}</a-descriptions-item>
+                    <a-descriptions-item label="优惠券类型">{{
+                        orderDetail.product_json && JSON.parse(orderDetail.product_json)?.type === 1 ? '满减券'
+                        : orderDetail.product_json && JSON.parse(orderDetail.product_json)?.type === 2 ? '代金券' : '团购券'
+                    }}</a-descriptions-item>
+                    <a-descriptions-item label="优惠券发放类型">{{ orderDetail.coupon_type == 1 ? '商家' : '平台'
+                    }}</a-descriptions-item>
+                    <a-descriptions-item label="优惠券金额">{{
+                        orderDetail.product_json && JSON.parse(orderDetail.product_json)?.price
+                    }}</a-descriptions-item>
                     <a-descriptions-item label="核销时间">{{ orderDetail.use_time }}</a-descriptions-item>
                     <a-descriptions-item label="退款时间">{{ orderDetail.refund_time }}</a-descriptions-item>
                 </a-descriptions>

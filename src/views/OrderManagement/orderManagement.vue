@@ -9,7 +9,19 @@
                 <a-flex wrap="wrap" gap="small">
                     <!-- 订单号 -->
                     <a-form-item label="订单号" name="sn">
-                        <a-input v-model:value="data.formHeader.sn" placeholder="请输入订单号" />
+                        <a-input-group compact style="width: 400px;">
+                            <a-select v-model:value="data.snAndshopName" style="width: 40%;"
+                                @change="methods.snAndshopNameChange">
+                                <a-select-option :value="0">订单号</a-select-option>
+                                <a-select-option :value="1">店铺信息</a-select-option>
+                            </a-select>
+                            <a-form-item-rest>
+                                <a-input v-if="data.snAndshopName == 0" v-model:value="data.formHeader.sn"
+                                    style="width: 60%" placeholder="请输入订单号" />
+                                <a-input v-if="data.snAndshopName == 1" v-model:value="data.formHeader.shop_name"
+                                    style="width: 60%" placeholder="请输入店铺信息" />
+                            </a-form-item-rest>
+                        </a-input-group>
                     </a-form-item>
                     <!-- 创建时间 -->
                     <a-form-item label="创建时间" name="create_time">
@@ -108,7 +120,7 @@
                     </template>
                     <template v-if="column.dataIndex === 'action'">
                         <a-button type="link" @click="methods.settlement(record)"
-                            v-if="record.is_settlement == 1">结算</a-button>
+                            v-if="record.is_settlement == 1 && record.status == 30">结算</a-button>
                         <a-button type="link" @click="methods.Views(record)">详情</a-button>
                     </template>
                 </template>
@@ -167,7 +179,9 @@ const data = reactive({
         is_settlement: '',// 是否结算
         coupon_type: '',// 优惠券发放类型
         coupon_send_type: '',// 优惠券类型
+        shop_name: '',//店铺信息
     },
+    snAndshopName: 0,//查询条件 下拉框
     columns: [// 表头
         {
             title: '创建时间',
@@ -253,6 +267,7 @@ const methods = reactive({
             is_settlement: data.formHeader.is_settlement,// 是否结算
             coupon_type: data.formHeader.coupon_type,// 优惠券发放类型
             coupon_send_type: data.formHeader.coupon_send_type,// 优惠券类型
+            shop_name: data.formHeader.shop_name,//店铺信息
         }
         orderList({
             ...params, page: page || 1, limit: limit || 10
@@ -270,6 +285,8 @@ const methods = reactive({
     Repossess: () => { // 重置
         formHeader.value?.resetFields()
         data.formHeader.create_time = undefined
+        data.snAndshopName = 0
+        methods.snAndshopNameChange(0)
         methods.getData()
     },
 
@@ -340,6 +357,15 @@ const methods = reactive({
             num += Number(item.store_rebate)
         })
         data.price = num
+    },
+    snAndshopNameChange(val: any) {
+        console.log(val, '-----');
+        if (val == 0) {
+            data.formHeader.shop_name = ''
+        } else if (val == 1) {
+            data.formHeader.sn = ''
+        }
+
     }
 
 

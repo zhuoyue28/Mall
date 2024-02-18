@@ -1,4 +1,4 @@
-import { createRouter,createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 // import { menuList } from "@/request/api/menu/menu"
 // import { ref } from 'vue';
 const modules: any = await import.meta.glob('../views/**/*.vue')  // 导入
@@ -21,7 +21,10 @@ const router = createRouter({
   {
     path: '/login',
     name: 'login',
-    component: modules[url]
+    component: modules[url],
+    meta: {
+      title: '登录'
+    }
   },]
 })
 

@@ -83,7 +83,8 @@
                 </a-form-item> -->
 
                 <a-form-item label="店铺" name="join_store">
-                    <a-radio-group v-model:value="data.formState.join_store" name="radioGroup">
+                    <a-radio-group v-model:value="data.formState.join_store" name="radioGroup"
+                        @change="methods.joinStoreChange">
                         <a-radio :value="0">全部</a-radio>
                         <a-radio :value="1">指定商家</a-radio>
                     </a-radio-group>
@@ -95,15 +96,18 @@
                     </div>
                     <a-table :columns="Number(data.formState.price) ? data.storeColumns : data.storeColumns2"
                         :dataSource="data.store_arr" :loading="data.storeLoading" :pagination="true" rowKey="store_id">
-                        <template #bodyCell="{ column, record,index }">
+                        <template #bodyCell="{ column, record, index }">
                             <template v-if="column.dataIndex == 'platform_rebate'">
                                 <a-form-item-rest>
-                                    <a-input-number :disabled="true" v-model:value="record.platform_rebate" :min="0" addon-after="%" />
+                                    <a-input-number :disabled="true" v-model:value="record.platform_rebate" :min="0"
+                                        addon-after="%" />
                                 </a-form-item-rest>
                             </template>
                             <template v-if="column.dataIndex == 'store_rebate'">
                                 <a-form-item-rest>
-                                    <a-input-number @change="(val:any)=>{methods.storeRebatechange(val,column,index)}" v-model:value="record.store_rebate" :min="0" addon-after="%" />
+                                    <a-input-number
+                                        @change="(val: any) => { methods.storeRebatechange(val, column, index) }"
+                                        v-model:value="record.store_rebate" :min="0" addon-after="%" />
                                 </a-form-item-rest>
                             </template>
                             <template v-if="column.dataIndex == 'store_perk'">
@@ -116,8 +120,9 @@
                                 {{ record.type == 1 ? '店铺分成' : '店铺补贴' }}
                             </template> -->
                             <template v-if="column.dataIndex == 'action'">
-                                <a-space size="small"  >
-                                    <a-button v-if="data.formState.join_store == 1" type="link" @click="methods.delete(record)">移除</a-button>
+                                <a-space size="small">
+                                    <a-button v-if="data.formState.join_store == 1" type="link"
+                                        @click="methods.delete(record)">移除</a-button>
                                 </a-space>
                             </template>
                         </template>
@@ -214,7 +219,7 @@ const data = reactive({
         {
             title: '店铺名称',
             dataIndex: 'name',
-            key: 'name'
+            key: 'name',
         },
     ],
     storeColumns: [
@@ -222,17 +227,20 @@ const data = reactive({
         {
             title: '店铺名称',
             dataIndex: 'name',
-            key: 'name'
+            key: 'name',
+            width: 200,
         },
         {
             title: '店铺分成（%）',
             dataIndex: 'store_rebate',
-            key: 'store_rebate'
+            key: 'store_rebate',
+            width: 100,
         },
         {
             title: '平台分成（%）',
             dataIndex: 'platform_rebate',
-            key: 'platform_rebate'
+            key: 'platform_rebate',
+            width: 100,
         },
         {
             title: '操作',
@@ -246,12 +254,14 @@ const data = reactive({
         {
             title: '店铺名称',
             dataIndex: 'name',
-            key: 'name'
+            key: 'name',
+            width: 300,
         },
         {
             title: '店铺补贴（元）',
             dataIndex: 'store_perk',
-            key: 'store_perk'
+            key: 'store_perk',
+            width: 200,
         },
         {
             title: '操作',
@@ -424,10 +434,23 @@ const methods = {
         data.selectedRowKeys = selectedRowKeys
         data.selectedRows = selectedRows
     },
-    storeRebatechange(val: any, column: any,index:any) {//店铺分成
-        console.log(val, column, index, 'val') 
+    storeRebatechange(val: any, column: any, index: any) {//店铺分成
+        console.log(val, column, index, 'val')
         if (column.dataIndex == 'store_rebate') {
             data.store_arr[index].platform_rebate = 100 - val
+        }
+    },
+    joinStoreChange(val: any) {
+        console.log(val.target.value, '切换全部/指定商家');
+        let valType = val.target.value
+        if (valType) {
+            data.selectedRowKeys = []
+            data.selectedRows = []
+            methods.storeOk()
+        } else {
+            data.selectedRowKeys = data.storeList.map((x: any) => x.id)
+            data.selectedRows = data.storeList
+            methods.storeOk()
         }
     }
 }
