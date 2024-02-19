@@ -88,7 +88,7 @@
                 :row-selection="{
                     selectedRowKeys: data.selectedRowKeys, onChange: methods.onSelectChange, preserveSelectedRowKeys: true,
                     getCheckboxProps: (record: any) => ({
-                        disabled: record.status != 30, // Column configuration not to be checked name: record.name, }),
+                        disabled: record.status != 30, // Column configuration not to be checked status: record.status, }),
                     })
                 }" :pagination="false" :scroll="{ x: 2000 }">
                 <template #bodyCell="{ column, record }">
