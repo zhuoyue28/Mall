@@ -53,8 +53,8 @@
                         <a-select style="width: 200px;" v-model:value="data.formHeader.coupon_type"
                             placeholder="请选择优惠券发放类型">
                             <a-select-option value="">全部</a-select-option>
-                            <a-select-option :value="1">商家</a-select-option>
-                            <a-select-option :value="2">平台</a-select-option>
+                            <a-select-option :value="2">商家</a-select-option>
+                            <a-select-option :value="1">平台</a-select-option>
                         </a-select>
                     </a-form-item>
                     <!-- 优惠券类型 -->
@@ -103,7 +103,7 @@
                     </template>
                     <template v-if="column.dataIndex === 'coupon_type'">
                         <span>
-                            {{ record.coupon_type == 1 ? '商家' : '平台' }}
+                            {{ record.coupon_type == 2 ? '商家' : '平台' }}
                         </span>
                     </template>
                     <template v-if="column.dataIndex === 'price'">
