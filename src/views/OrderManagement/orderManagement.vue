@@ -64,7 +64,7 @@
                             <a-select-option value="">全部</a-select-option>
                             <a-select-option :value="1">满减券</a-select-option>
                             <a-select-option :value="2">代金券</a-select-option>
-                            <a-select-option :value="3">团购券</a-select-option>
+                            <a-select-option :value="3">无门槛券</a-select-option>
                         </a-select>
                     </a-form-item>
                     <a-form-item>
@@ -85,8 +85,12 @@
                     @click="methods.settlementP(data.selectedRowKeys)">批量结算</a-button>
             </div>
             <a-table :dataSource="data.tableData" :columns="data.columns" rowKey="order_id" :loading="data.tableLoading"
-                :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: methods.onSelectChange, preserveSelectedRowKeys: true }"
-                :pagination="false" :scroll="{ x: 2000 }">
+                :row-selection="{
+                    selectedRowKeys: data.selectedRowKeys, onChange: methods.onSelectChange, preserveSelectedRowKeys: true,
+                    getCheckboxProps: (record: any) => ({
+                        disabled: record.status != 30, // Column configuration not to be checked name: record.name, }),
+                    })
+                }" :pagination="false" :scroll="{ x: 2000 }">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'nickname'">
                         {{ record.user?.nickname }}/{{ record.user?.phone }}
@@ -204,7 +208,7 @@ const data = reactive({
             key: 'nickname',
         },
         {
-            title: '优惠券名称/优惠券发放类型',
+            title: '优惠券名称/优惠券类型',
             dataIndex: 'product_json',
             key: 'product_json',
         },
