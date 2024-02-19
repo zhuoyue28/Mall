@@ -168,7 +168,7 @@ const data = reactive({
 })
 
 const methods = {
-    submit() {
+    submit() {//提交
         if (route.query.type == '3') return
         if (data.formState.store_id == null) data.formState.store_id = 0
         if (data.formState.type == 2) data.formState.full = null
@@ -188,7 +188,7 @@ const methods = {
 
             return
         }
-        formState.value!.validate().then(() => {
+        formState.value!.validate().then(() => {//验证表单
             data.submitLoading = true;
             couponAdd({ ...data.formState, source: 2 }).then(res => {
                 console.log(res, 'res');
@@ -201,13 +201,13 @@ const methods = {
             })
         })
     },
-    cancel() {
+    cancel() {//取消
         router.go(-1)
     },
-    handlePreview(file: any) {
+    handlePreview(file: any) {//预览图片
         console.log(file, 'file');
     },
-    getDetails() {
+    getDetails() {//获取详情
         if (route.query.type == '2' || route.query.type == '3') {
             couponDetails({ coupon_id: route.query.id }).then(res => {
                 console.log(res, 'res');
@@ -219,7 +219,7 @@ const methods = {
             return
         }
     },
-    getStoreList() {
+    getStoreList() {//获取店铺列表
         storeList({ page: 1, limit: 9999 }).then(res => {
             console.log(res, 'res店铺');
             if (res.code == 200) {
@@ -227,7 +227,7 @@ const methods = {
             }
         })
     },
-    store_rebateChange() {
+    store_rebateChange() {//店铺分成自动补全
         data.formState.platform_rebate = 100 - (data.formState.store_rebate ? data.formState.store_rebate : 0)
     }
 }
