@@ -18,7 +18,6 @@
                     <a-radio-group v-model:value="data.formState.type" name="radioGroup">
                         <a-radio :value="1">满减劵</a-radio>
                         <a-radio :value="2">代金劵</a-radio>
-                        <a-radio :value="3">团购劵</a-radio>
                     </a-radio-group>
                 </a-form-item>
 
@@ -36,12 +35,12 @@
 
                 <a-form-item v-if="data.formState.type == 2" label="优惠券内容" name="reduce"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
-
-                    <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
-
+                    <div class="flex items-center">
+                        代：<a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
+                    </div>                    
                 </a-form-item>
 
-                <a-form-item v-if="data.formState.type == 3" label="优惠券内容" name="full"
+                <!-- <a-form-item v-if="data.formState.type == 3" label="优惠券内容" name="full"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
                     <div class="flex items-center">
                         <a-input-number v-model:value="data.formState.full" :min="0" addon-after="元" />
@@ -51,7 +50,7 @@
                             <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
                         </a-form-item-rest>
                     </div>
-                </a-form-item>
+                </a-form-item> -->
 
 
                 <a-form-item label="店铺" name="join_store">
@@ -159,11 +158,11 @@ const data = reactive({
     },
     submitLoading: false,//提交loading
     storeList: ref<any>([]),//店铺列表
-    detailsValidator: (rule: any, value: any, callback: any) => {
+    detailsValidator: (rule: any, value: any) => {
         if (value == '' || value == '<p><br></p>' || value == '<p></p>') {
-            callback(new Error('请输入规则详情'))
+            return Promise.reject('请输入规则详情')
         } else {
-            callback()
+            return Promise.resolve();
         }
     },
 })
@@ -174,7 +173,7 @@ const methods = {
         if (data.formState.store_id == null) data.formState.store_id = 0
         if (data.formState.type == 2) data.formState.full = null
         if (route.query.type == '2') {
-            formState.value?.validate().then(() => {
+            formState.value!.validate().then(() => {
                 data.submitLoading = true;
                 couponEdit({ ...data.formState, coupon_id: route.query.id, source: 2 }).then(res => {
                     console.log(res, 'res');
@@ -189,7 +188,7 @@ const methods = {
 
             return
         }
-        formState.value?.validate().then(() => {
+        formState.value!.validate().then(() => {
             data.submitLoading = true;
             couponAdd({ ...data.formState, source: 2 }).then(res => {
                 console.log(res, 'res');

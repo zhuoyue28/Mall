@@ -7,40 +7,42 @@
         <div class='tableListHeaderClass h-auto'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off"
                 style="height: 100%;">
-                <a-form-item label="用户名称" name="nickname">
-                    <a-input v-model:value="data.formHeader.nickname">
-                        <template #prefix>
-                            <StarOutlined class="site-form-item-icon" />
-                        </template>
-                    </a-input>
-                </a-form-item>
-                <a-form-item label="手机号码" name="phone">
-                    <a-input v-model:value="data.formHeader.phone">
-                        <template #prefix>
-                            <PhoneOutlined class="site-form-item-icon" />
-                        </template>
-                    </a-input>
-                </a-form-item>
-                <a-form-item label="上传时间" name="time">
-                    <a-range-picker v-model:value="time" :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss"
-                        :placeholder="['开始时间', '结束时间']" />
-                </a-form-item>
-                <!-- 优惠券类型 -->
-                <a-form-item label="审核状态" name="status">
-                    <a-select v-model:value="data.formHeader.status" style="width: 200px;">
-                        <a-select-option value="">全部</a-select-option>
-                        <a-select-option :value="1">待审核</a-select-option>
-                        <a-select-option :value="2">已审核</a-select-option>
-                        <a-select-option :value="-1">已拒绝</a-select-option>
-                    </a-select>
-                </a-form-item>
+                <a-flex wrap="wrap" gap="small">
+                    <a-form-item label="用户名称" name="nickname">
+                        <a-input v-model:value="data.formHeader.nickname">
+                            <template #prefix>
+                                <StarOutlined class="site-form-item-icon" />
+                            </template>
+                        </a-input>
+                    </a-form-item>
+                    <a-form-item label="手机号码" name="phone">
+                        <a-input v-model:value="data.formHeader.phone">
+                            <template #prefix>
+                                <PhoneOutlined class="site-form-item-icon" />
+                            </template>
+                        </a-input>
+                    </a-form-item>
+                    <a-form-item label="上传时间" name="time">
+                        <a-range-picker v-model:value="time" :show-time="{ format: 'HH:mm:ss' }"
+                            format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" />
+                    </a-form-item>
+                    <!-- 优惠券类型 -->
+                    <a-form-item label="审核状态" name="status">
+                        <a-select v-model:value="data.formHeader.status" style="width: 200px;">
+                            <a-select-option value="">全部</a-select-option>
+                            <a-select-option :value="1">待审核</a-select-option>
+                            <a-select-option :value="2">已审核</a-select-option>
+                            <a-select-option :value="-1">已拒绝</a-select-option>
+                        </a-select>
+                    </a-form-item>
 
-                <a-form-item>
-                    <a-button type="primary" @click="methods.getData()">查 询</a-button>
-                </a-form-item>
-                <a-form-item>
-                    <a-button type="default" @click="methods.Repossess()">重 置</a-button>
-                </a-form-item>
+                    <a-form-item>
+                        <a-button type="primary" @click="methods.getData()">查 询</a-button>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="default" @click="methods.Repossess()">重 置</a-button>
+                    </a-form-item>
+                </a-flex>
             </a-form>
 
         </div>

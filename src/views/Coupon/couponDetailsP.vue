@@ -20,7 +20,7 @@
                     <a-radio-group v-model:value="data.formState.type" name="radioGroup">
                         <a-radio :value="1">满减劵</a-radio>
                         <a-radio :value="2">代金劵</a-radio>
-                        <a-radio :value="3">团购劵</a-radio>
+                        <a-radio :value="3">无门槛券</a-radio>
                     </a-radio-group>
                 </a-form-item>
 
@@ -37,19 +37,14 @@
 
                 <a-form-item v-if="data.formState.type == 2" label="优惠券内容" name="reduce"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
-                    <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
+                    <div class="flex items-center">
+                        代：<a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
+                    </div>
                 </a-form-item>
 
-                <a-form-item v-if="data.formState.type == 3" label="优惠券内容" name="full"
+                <a-form-item v-if="data.formState.type == 3" label="优惠券内容" name="reduce"
                     :rules="[{ required: true, message: '请输入优惠劵内容!' }]">
-                    <div class="flex items-center">
-                        <a-input-number v-model:value="data.formState.full" :min="0" addon-after="元" />
-                        <span class="ml-[10px]">，</span>
-                        团：
-                        <a-form-item-rest>
-                            <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
-                        </a-form-item-rest>
-                    </div>
+                    <a-input-number v-model:value="data.formState.reduce" :min="0" addon-after="元" />
                 </a-form-item>
 
                 <a-form-item label="优惠券名称" name="name" :rules="[{ required: true, message: '请输入店铺名称!' }]">
@@ -64,6 +59,18 @@
                 <a-form-item label="有效期，领取后" name="valid_day" :rules="[{ required: true, message: '请输入有效期!' }]">
                     <a-input-number v-model:value="data.formState.valid_day" :min="1" addon-after="天" />
                 </a-form-item>
+
+                <a-form-item v-if="data.formState.type == 3" label="优惠券发放数量：" name="grant_num"
+                    :rules="[{ required: true, message: '请输入优惠券发放数量!' }]">
+                    <a-input-number v-model:value="data.formState.grant_num" :min="1" addon-after="个" />
+                </a-form-item>
+
+                <a-form-item v-if="data.formState.type == 3" label="优惠券领取数量限制：" name="get_limit"
+                    :rules="[{ required: true, message: '请输入优惠券领取数量限制!' }]">
+                    <a-input-number v-model:value="data.formState.get_limit" :min="1" addon-after="个" />
+                </a-form-item>
+
+
 
                 <!-- 优惠券介绍 -->
                 <!-- <a-form-item label="优惠券介绍" name="intro" :rules="[{ required: true, message: '请输入优惠券介绍!' }]">
@@ -201,7 +208,9 @@ const data = reactive({
         // platform_rebate: ref<null | number>(null), //优惠券分成
         use_rule: '', //使用规则
         // store_rebate: ref<null | number>(null), //店铺分成
-        store_id: ref<any>(0) //店铺id
+        store_id: ref<any>(0), //店铺id
+        grant_num: ref<null | number>(null), //优惠券发放数量
+        get_limit: ref<null | number>(null), //优惠券领取数量限制
     },
     submitLoading: false, //提交loading
     storeList: ref<any>([]), //店铺列表
@@ -272,11 +281,11 @@ const data = reactive({
     store_arr: ref<any>([]),//店铺id
     selectedRowKeys: ref<any>([]),//选中的店铺id
     selectedRows: ref<any>([]),//选中的店铺id
-    detailsValidator: (rule: any, value: any, callback: any) => {
+    detailsValidator: (rule: any, value: any) => {
         if (value == '' || value == '<p><br></p>' || value == '<p></p>') {
-            callback(new Error('请输入规则详情'))
+            return Promise.reject('请输入规则详情')
         } else {
-            callback()
+            return Promise.resolve();
         }
     },
 })
@@ -328,7 +337,7 @@ const methods = {
                 if (res.code == 200) {
                     data.formState = {
                         type: res.data.type, //优惠券类型
-                        full: res.data.full, //满
+                        full: res.data.full || null, //满
                         reduce: res.data.reduce, //减
                         join_store: res.data.join_store, //店铺
                         name: res.data.name, //优惠券名称
@@ -338,7 +347,9 @@ const methods = {
                         // platform_rebate: ref<null | number>(null), //优惠券分成
                         use_rule: res.data.use_rule, //使用规则
                         // store_rebate: ref<null | number>(null), //店铺分成
-                        store_id: 0 //店铺id
+                        store_id: 0, //店铺id
+                        grant_num: res.data.grant_num, //优惠券发放数量
+                        get_limit: res.data.get_limit, //优惠券领取数量限制
                     }
                     res.data.store_list.forEach((x: any) => {
                         let obj = {
@@ -363,9 +374,11 @@ const methods = {
             console.log(res, 'res店铺')
             if (res.code == 200) {
                 data.storeList = res.data.data
-                data.selectedRowKeys = res.data.data.map((x: any) => x.id)
-                data.selectedRows = res.data.data
-                methods.storeOk()
+                if (route.query.type == '1') {
+                    data.selectedRowKeys = res.data.data.map((x: any) => x.id)
+                    data.selectedRows = res.data.data
+                    methods.storeOk()
+                }
             }
         })
     },
