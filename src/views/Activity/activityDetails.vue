@@ -232,7 +232,7 @@ const handleCreated = (editor: any) => {
 
 
 onMounted(() => {
-    couponList({ page: 1, limit: 9999, source: 1, price: 1, type: '1,2' }).then(res => {
+    couponList({ page: 1, limit: 9999, source: 1, price: 1, type: '1,2,3' }).then(res => {
         if (res.code == 200) {
             data.couponList = res.data.data
         }
