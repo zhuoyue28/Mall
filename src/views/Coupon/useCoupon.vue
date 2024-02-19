@@ -25,7 +25,7 @@
                             <a-select-option value="">全部</a-select-option>
                             <a-select-option :value="1">满减券</a-select-option>
                             <a-select-option :value="2">代金券</a-select-option>
-                            <a-select-option :value="3">团购券</a-select-option>
+                            <a-select-option :value="3">无门槛券</a-select-option>
                         </a-select>
                     </a-form-item>
                     <!-- 状态 -->
