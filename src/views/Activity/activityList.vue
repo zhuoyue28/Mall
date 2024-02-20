@@ -54,7 +54,7 @@
                             <a-button type="link" v-if="record.status == 0"
                                 @click="methods.Release(record, 1)">发布</a-button>
                             <a-button type="link" v-if="record.status == 1"
-                                @click="methods.Release(record, 2)">取消发布</a-button>
+                                @click="methods.Release(record, 0)">取消发布</a-button>
                             <a-button type="link" @click="methods.details(record)">编辑</a-button>
                             <a-button type="link" danger @click="methods.del(record)">删除</a-button>
 
