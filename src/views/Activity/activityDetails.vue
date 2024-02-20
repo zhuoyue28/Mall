@@ -20,7 +20,7 @@
                 <a-form-item label="活动封面图" name="cover" :rules="[{ required: true, message: '请上传活动封面图' }]">
                     <a-upload v-model:file-list="data.fileList" name="file" list-type="picture-card" class="avatar-uploader"
                         :show-upload-list="false" action="/zyapi/admin/com/uploadeFile" @change="methods.handleChange">
-                        <img v-if="data.form.cover" :src="data.form.cover" alt="avatar" />
+                        <img style="height: 100px;" v-if="data.form.cover" :src="data.form.cover" alt="avatar" />
                         <div v-else>
                             <loading-outlined v-if="data.uplogoLoading"></loading-outlined>
                             <plus-outlined v-else></plus-outlined>
