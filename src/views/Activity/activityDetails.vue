@@ -164,7 +164,7 @@ const methods = reactive({
     bannerhandleChange(info: UploadChangeParam) {
         console.log(info, 'info');
         if (info.file.status === "removed") {
-            data.form.banner = info.fileList.map((item: any) => item.response.data.path).join(',')
+            data.form.banner = info.fileList.map((item: any) => item.response ? item.response.data.path : item.url).join(',')
             console.log(data.form.banner, 'data.form.banner');
             message.success('删除成功')
             return
@@ -175,7 +175,7 @@ const methods = reactive({
         }
         if (info.file.status === 'done') {
             data.banneruplogoLoading = false
-            data.form.banner = info.fileList.map((item: any) => item.response.data.path).join(',')
+            data.form.banner = info.fileList.map((item: any) => item.response ? item.response.data.path : item.url).join(',')
             console.log(data.form.banner, 'data.form.banner');
             message.success('上传成功')
         }
