@@ -15,8 +15,10 @@
                     <a-input style="width: 288px;" v-model:value="data.form.name" placeholder="请输入" />
                 </a-form-item>
                 <a-form-item label="活动时间" name="time" :rules="[{ required: true, message: '请选择活动时间' }]">
-                    <a-range-picker :placeholder="['开始时间', '结束时间']" v-model:value="data.form.time" />
+                    <a-range-picker :placeholder="['开始时间', '结束时间']" v-model:value="data.form.time"
+                        :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" />
                 </a-form-item>
+
                 <a-form-item label="活动封面图" name="cover" :rules="[{ required: true, message: '请上传活动封面图' }]">
                     <a-upload v-model:file-list="data.fileList" name="file" list-type="picture-card" class="avatar-uploader"
                         :show-upload-list="false" action="/zyapi/admin/com/uploadeFile" @change="methods.handleChange">
@@ -112,8 +114,8 @@ const methods = reactive({
             data.submitLoading = true
             let params = {
                 name: data.form.name,
-                start_time: dayjs(data.form.time?.[0]).format('YYYY-MM-DD'),
-                end_time: dayjs(data.form.time?.[1]).format('YYYY-MM-DD'),
+                start_time: dayjs(data.form.time?.[0]).format('YYYY-MM-DD HH:mm:ss'),
+                end_time: dayjs(data.form.time?.[1]).format('YYYY-MM-DD HH:mm:ss'),
                 cover: data.form.cover,
                 banner: data.form.banner,
                 details: data.form.details,
@@ -253,7 +255,7 @@ onMounted(() => {
                 data.form.time = [dayjs(res.data.start_time, 'YYYY/MM/DD'), dayjs(res.data.end_time, 'YYYY/MM/DD')]
                 data.form.cover = res.data.cover
                 let banner = res.data.banner
-                let banner2:any = []
+                let banner2: any = []
                 banner.forEach((item: any) => {
                     banner2.push({
                         uid: '-1',

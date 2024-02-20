@@ -113,6 +113,7 @@ const data = reactive({
             title: '活动优惠券',
             dataIndex: 'getCoupons',
             key: 'getCoupons',
+            width: 200
         },
         {
             title: '发布状态',
