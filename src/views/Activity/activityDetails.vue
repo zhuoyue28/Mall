@@ -256,9 +256,9 @@ onMounted(() => {
                 data.form.cover = res.data.cover
                 let banner = res.data.banner
                 let banner2: any = []
-                banner.forEach((item: any) => {
+                banner.forEach((item: any, index: number) => {
                     banner2.push({
-                        uid: '-1',
+                        uid: index + 'uid',
                         name: 'image.png',
                         status: 'done',
                         url: item,
