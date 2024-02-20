@@ -29,3 +29,6 @@ export const activityAddOrEdit = (data: any): Res<any> =>
 // 活动详情
 export const activityDetails = (data: any): Res<any> =>
     request.post("/activity/details", data);
+// 优惠券列表
+export const couponSelectList = (data: any): Res<any> =>
+    request.post("/coupon/selectList", data);

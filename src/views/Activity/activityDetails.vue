@@ -78,7 +78,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import type { FormInstance } from 'ant-design-vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { comUploadeFile, activityAddOrEdit, activityDetails } from "../../request/api/activity"
-import { couponList } from "../../request/api/coupon"
+import { couponSelectList } from "../../request/api/activity"
 
 const route = useRoute()
 const router = useRouter()
@@ -242,7 +242,7 @@ const handleCreated = (editor: any) => {
 
 
 onMounted(() => {
-    couponList({ page: 1, limit: 9999, source: 1, price: 1, type: '1,2,3' }).then(res => {
+    couponSelectList({ page: 1, limit: 9999 }).then(res => {
         if (res.code == 200) {
             data.couponList = res.data.data
         }
