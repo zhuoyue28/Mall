@@ -14,12 +14,18 @@
                                 @change="methods.snAndshopNameChange">
                                 <a-select-option :value="0">订单号</a-select-option>
                                 <a-select-option :value="1">店铺名称</a-select-option>
+                                <a-select-option :value="2">用户信息</a-select-option>
+                                <a-select-option :value="3">优惠券名称</a-select-option>
                             </a-select>
                             <a-form-item-rest>
                                 <a-input v-if="data.snAndshopName == 0" v-model:value="data.formHeader.sn"
                                     style="width: 60%" placeholder="请输入订单号" />
                                 <a-input v-if="data.snAndshopName == 1" v-model:value="data.formHeader.shop_name"
                                     style="width: 60%" placeholder="请输入店铺名称" />
+                                    <a-input v-if="data.snAndshopName == 2" v-model:value="data.formHeader.user_info"
+                                    style="width: 60%" placeholder="请输入用户信息" />
+                                    <a-input v-if="data.snAndshopName == 3" v-model:value="data.formHeader.coupon_name"
+                                    style="width: 60%" placeholder="请输入优惠券名称" />
                             </a-form-item-rest>
                         </a-input-group>
                     </a-form-item>
@@ -184,6 +190,8 @@ const data = reactive({
         coupon_type: '',// 优惠券发放类型
         coupon_send_type: '',// 优惠券类型
         shop_name: '',//店铺信息
+        user_info: '',//用户信息
+        coupon_name: '',//优惠券名称
     },
     snAndshopName: 0,//查询条件 下拉框
     columns: [// 表头
@@ -272,6 +280,8 @@ const methods = reactive({
             coupon_type: data.formHeader.coupon_type,// 优惠券发放类型
             coupon_send_type: data.formHeader.coupon_send_type,// 优惠券类型
             shop_name: data.formHeader.shop_name,//店铺信息
+            user_info: data.formHeader.user_info,//用户信息
+            coupon_name: data.formHeader.coupon_name,//优惠券名称
         }
         orderList({
             ...params, page: page || 1, limit: limit || 10
@@ -366,8 +376,20 @@ const methods = reactive({
         console.log(val, '-----');
         if (val == 0) {
             data.formHeader.shop_name = ''
+            data.formHeader.user_info = ''
+            data.formHeader.coupon_name = ''
         } else if (val == 1) {
             data.formHeader.sn = ''
+            data.formHeader.user_info = ''
+            data.formHeader.coupon_name = ''
+        } else if (val == 2) {
+            data.formHeader.sn = ''
+            data.formHeader.shop_name = ''
+            data.formHeader.coupon_name = ''
+        } else if (val == 3) {
+            data.formHeader.sn = ''
+            data.formHeader.shop_name = ''
+            data.formHeader.user_info = ''
         }
 
     }
