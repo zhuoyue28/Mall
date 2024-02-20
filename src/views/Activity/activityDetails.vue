@@ -17,7 +17,7 @@
                 <a-form-item label="活动时间" name="time" :rules="[{ required: true, message: '请选择活动时间' }]">
                     <a-range-picker :placeholder="['开始时间', '结束时间']" v-model:value="data.form.time" />
                 </a-form-item>
-                <a-form-item label="活动封面" name="cover" :rules="[{ required: true, message: '请选择活动封面' }]">
+                <a-form-item label="活动封面图" name="cover" :rules="[{ required: true, message: '请上传活动封面图' }]">
                     <a-upload v-model:file-list="data.fileList" name="file" list-type="picture-card" class="avatar-uploader"
                         :show-upload-list="false" action="/zyapi/admin/com/uploadeFile" @change="methods.handleChange">
                         <img v-if="data.form.cover" :src="data.form.cover" alt="avatar" />
@@ -28,17 +28,17 @@
                         </div>
                     </a-upload>
                 </a-form-item>
-                <a-form-item label="活动背景" name="banner" :rules="[{ required: true, message: '请选择活动背景' }]">
-                    <a-upload v-model:file-list="data.bannerfileList" name="file" list-type="picture-card"
-                        class="avatar-uploader" :show-upload-list="false" action="/zyapi/admin/com/uploadeFile"
-                        @change="methods.bannerhandleChange">
-                        <img v-if="data.form.banner" :src="data.form.banner" alt="avatar" />
-                        <div v-else>
-                            <loading-outlined v-if="data.banneruplogoLoading"></loading-outlined>
-                            <plus-outlined v-else></plus-outlined>
-                            <div class="ant-upload-text">上传</div>
-                        </div>
-                    </a-upload>
+                <a-form-item label="活动轮播图" name="banner" :rules="[{ required: true, message: '请上传活动轮播图' }]">
+                    <div class="max-w-[30%]">
+                        <a-upload v-model:file-list="data.bannerfileList" name="file" list-type="picture"
+                            class="upload-list-inline" :show-upload-list="true" action="/zyapi/admin/com/uploadeFile"
+                            @change="methods.bannerhandleChange">
+                            <a-button class="flex items-center">
+                                <upload-outlined></upload-outlined>
+                                上传
+                            </a-button>
+                        </a-upload>
+                    </div>
                 </a-form-item>
                 <!-- 选择优惠券 -->
                 <a-form-item label="选择优惠券" name="coupon_id" :rules="[{ required: true, message: '请选择优惠券' }]">
@@ -160,16 +160,24 @@ const methods = reactive({
         }
     },
     bannerhandleChange(info: UploadChangeParam) {
+        console.log(info, 'info');
+        if (info.file.status === "removed") {
+            data.form.banner = info.fileList.map((item: any) => item.response.data.path).join(',')
+            console.log(data.form.banner, 'data.form.banner');
+            message.success('删除成功')
+            return
+        }
+
         if (info.file.status === 'uploading') {
-            data.banneruplogoLoading = true
             return
         }
         if (info.file.status === 'done') {
             data.banneruplogoLoading = false
-            data.form.banner = info.file.response.data.path
+            data.form.banner = info.fileList.map((item: any) => item.response.data.path).join(',')
+            console.log(data.form.banner, 'data.form.banner');
             message.success('上传成功')
         }
-    }
+    },
 })
 
 
@@ -244,7 +252,18 @@ onMounted(() => {
                 data.form.name = res.data.name
                 data.form.time = [dayjs(res.data.start_time, 'YYYY/MM/DD'), dayjs(res.data.end_time, 'YYYY/MM/DD')]
                 data.form.cover = res.data.cover
-                data.form.banner = res.data.banner + ''
+                let banner = res.data.banner
+                let banner2:any = []
+                banner.forEach((item: any) => {
+                    banner2.push({
+                        uid: '-1',
+                        name: 'image.png',
+                        status: 'done',
+                        url: item,
+                    })
+                })
+                data.bannerfileList = banner2
+                data.form.banner = res.data.banner.join(',')
                 data.form.details = res.data.details
                 data.form.coupon_id = res.data.coupon_id
                 data.fileList = [{
@@ -252,12 +271,6 @@ onMounted(() => {
                     name: 'image.png',
                     status: 'done',
                     url: res.data.cover,
-                }]
-                data.bannerfileList = [{
-                    uid: '-1',
-                    name: 'image.png',
-                    status: 'done',
-                    url: res.data.banner,
                 }]
             }
         })

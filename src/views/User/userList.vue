@@ -5,30 +5,32 @@
         </a-breadcrumb>
         <div class='tableListHeaderClass'>
             <a-form :model="data.formHeader" ref="formHeader" name="horizontal_login" layout="inline" autocomplete="off">
-                <a-form-item label="用户名称" name="keyword_nickname">
-                    <a-input v-model:value="data.formHeader.keyword_nickname" placeholder="请输入">
-                        <template #prefix>
-                            <UserOutlined class="site-form-item-icon" />
-                        </template>
-                    </a-input>
-                </a-form-item>
-                <a-form-item label="手机号码" name="keyword_phone">
-                    <a-input v-model:value="data.formHeader.keyword_phone" placeholder="请输入">
-                        <template #prefix>
-                            <PhoneOutlined class="site-form-item-icon" />
-                        </template>
-                    </a-input>
-                </a-form-item>
-                <a-form-item label="注册时间" name="time">
-                    <a-range-picker v-model:value="data.formHeader.time" :show-time="{ format: 'HH:mm:ss' }"
-                        format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
-                </a-form-item>
-                <a-form-item>
-                    <a-button type="primary" @click="methods.getData()">查 询</a-button>
-                </a-form-item>
-                <a-form-item>
-                    <a-button type="default" @click="methods.Repossess()">重 置</a-button>
-                </a-form-item>
+                <a-flex wrap="wrap" gap="small">
+                    <a-form-item label="用户名称" name="keyword_nickname">
+                        <a-input v-model:value="data.formHeader.keyword_nickname" placeholder="请输入">
+                            <template #prefix>
+                                <UserOutlined class="site-form-item-icon" />
+                            </template>
+                        </a-input>
+                    </a-form-item>
+                    <a-form-item label="手机号码" name="keyword_phone">
+                        <a-input v-model:value="data.formHeader.keyword_phone" placeholder="请输入">
+                            <template #prefix>
+                                <PhoneOutlined class="site-form-item-icon" />
+                            </template>
+                        </a-input>
+                    </a-form-item>
+                    <a-form-item label="注册时间" name="time">
+                        <a-range-picker v-model:value="data.formHeader.time" :show-time="{ format: 'HH:mm:ss' }"
+                            format="YYYY-MM-DD HH:mm:ss" :placeholder="['开始时间', '结束时间']" @change="methods.onRangeOk" />
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="primary" @click="methods.getData()">查 询</a-button>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="default" @click="methods.Repossess()">重 置</a-button>
+                    </a-form-item>
+                </a-flex>
             </a-form>
 
         </div>

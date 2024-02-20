@@ -13,13 +13,13 @@
                             <a-select v-model:value="data.snAndshopName" style="width: 40%;"
                                 @change="methods.snAndshopNameChange">
                                 <a-select-option :value="0">订单号</a-select-option>
-                                <a-select-option :value="1">店铺信息</a-select-option>
+                                <a-select-option :value="1">店铺名称</a-select-option>
                             </a-select>
                             <a-form-item-rest>
                                 <a-input v-if="data.snAndshopName == 0" v-model:value="data.formHeader.sn"
                                     style="width: 60%" placeholder="请输入订单号" />
                                 <a-input v-if="data.snAndshopName == 1" v-model:value="data.formHeader.shop_name"
-                                    style="width: 60%" placeholder="请输入店铺信息" />
+                                    style="width: 60%" placeholder="请输入店铺名称" />
                             </a-form-item-rest>
                         </a-input-group>
                     </a-form-item>
