@@ -252,7 +252,7 @@ onMounted(() => {
         activityDetails({ activity_id: route.query.id }).then(res => {
             if (res.code == 200) {
                 data.form.name = res.data.name
-                data.form.time = [dayjs(res.data.start_time, 'YYYY/MM/DD'), dayjs(res.data.end_time, 'YYYY/MM/DD')]
+                data.form.time = [dayjs(res.data.start_time, 'YYYY-MM-DD HH:mm:ss'), dayjs(res.data.end_time, 'YYYY-MM-DD HH:mm:ss')]
                 data.form.cover = res.data.cover
                 let banner = res.data.banner
                 let banner2: any = []
