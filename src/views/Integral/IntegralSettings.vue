@@ -38,7 +38,7 @@
                     </div>
                 </a-form-item>
 
-                <a-form-item label="自助积分规格" name="self_score_rule"
+                <a-form-item label="自助积分规则" name="self_score_rule"
                     :rules="[{ required: true, validator: data.detailsValidator }]">
                     <div style="border: 1px solid #ccc;width: 900px;z-index: 10;">
                         <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef2" :defaultConfig="toolbarConfig"
