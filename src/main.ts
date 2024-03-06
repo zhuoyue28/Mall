@@ -16,6 +16,7 @@ Object.keys(IconData).forEach((key: string) => {
 
 app.use(createPinia())
 const boot = async () => {
+    // 挂载动态路由需要在挂载app/router之前
     await addRoutes()
     app.use(router)
     app.mount('#app')
