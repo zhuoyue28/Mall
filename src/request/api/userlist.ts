@@ -26,4 +26,6 @@ export const userOrderList = (data: any): Res<any> =>
 // 用户积分记录
 export const userScoreRecordList = (data: any): Res<any> =>
     request.post("/user/userScoreRecordList", data);
-
+// 用户停车券记录
+export const userCouponCarList = (data: any): Res<any> =>
+    request.post("/user/userCouponCarList", data);

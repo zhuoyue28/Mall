@@ -50,10 +50,10 @@
                 <a-tab-pane key="1" tab="订单记录">
 
                 </a-tab-pane>
-                <a-tab-pane key="2" tab="停车券" disabled></a-tab-pane>
+                <a-tab-pane key="2" tab="停车券"></a-tab-pane>
                 <a-tab-pane key="3" tab="积分记录"></a-tab-pane>
             </a-tabs>
-            <a-table :columns="activeKey == '1' ? tableColumns : activeKey == '2' ? null : tableColumns3"
+            <a-table :columns="activeKey == '1' ? tableColumns : activeKey == '2' ? tableColumns2 : tableColumns3"
                 :dataSource="tableData" :loading="tableLoading" :pagination="false" rowKey="id">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex == 'is_settlement'">
@@ -72,6 +72,12 @@
                         <span>{{ record.status == 1 ? '自助积分' : record.status == 2 ? '停车缴费' : record.status == 3 ? '停车兑换'
                             : '优惠券使用' }}</span>
                     </template>
+                    <template v-if="column.dataIndex == 'price'">
+                        <span>减{{ record.price }}元</span>
+                    </template>
+                    <template v-if="column.dataIndex == 'end_time'">
+                        <span>有效期至：{{ record.end_time }}</span>
+                    </template>
                 </template>
             </a-table>
             <div class="flex justify-end items-center mt-[12px]">
@@ -84,7 +90,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { userDetails, userRemark, userOrderList, userScoreRecordList } from '../../request/api/userlist'
+import { userDetails, userRemark, userOrderList, userScoreRecordList, userCouponCarList } from '../../request/api/userlist'
 import { message } from 'ant-design-vue'
 const router = useRouter()
 const route = useRoute()
@@ -96,6 +102,19 @@ const remarkLoading = ref(false) //备注加载
 const activeKey = ref('1') //tab切换
 const tableData = ref([]) //表格数据
 const tableLoading = ref(false) //表格加载
+function getTime(time : any) {
+    let oldDate = new Date(time)
+    let nowDate = new Date()
+    // 获取时间戳
+    let oldTime = oldDate.getTime()
+    let nowTime = nowDate.getTime()
+    // 相差的时间 差
+    let Time = nowTime - oldTime
+    // 向下取整 时间戳 / 1000 为秒
+    // 秒*60 为分 分*60为小时 小时*24为天数
+    console.log(Math.floor(Time / (1000 * 60 * 60 * 24)));
+}
+
 const tablePagination = ref({
     //分页
     current: 1,
@@ -149,23 +168,23 @@ const tableColumns2 = ref([
     //表头
     {
         title: '优惠劵名称',
-        dataIndex: 'create_time',
-        key: 'create_time'
+        dataIndex: 'title',
+        key: 'title'
     },
     {
         title: '优惠券内容',
-        dataIndex: 'sn',
-        key: 'sn'
+        dataIndex: 'price',
+        key: 'price'
     },
     {
         title: '有效期',
-        dataIndex: 'shop_name',
-        key: 'shop_name'
+        dataIndex: 'end_time',
+        key: 'end_time'
     },
     {
         title: '优惠券状态',
-        dataIndex: 'coupon_name',
-        key: 'coupon_name'
+        dataIndex: 'status_text',
+        key: 'status_text'
     },
 ])
 const tableColumns3 = ref([
@@ -238,6 +257,18 @@ const getData = (page?: number, pageSize?: number, type?: string | number) => {
         })
     } else if (type == 2) {
         // 停车券
+        userCouponCarList({//积分记录
+            page: page ? page : 1,
+            limit: pageSize ? pageSize : 5,
+            user_id: user_id.value
+        }).then((res: any) => {
+            console.log(res, 'res-----积分记录');
+            tableData.value = res.data.data
+            tablePagination.value.total = res.data.total
+            tablePagination.value.current = res.data.current_page
+            tablePagination.value.pageSize = res.data.per_page
+            tableLoading.value = false
+        })
     } else if (type == 3) {
         userScoreRecordList({//积分记录
             page: page ? page : 1,

@@ -54,3 +54,4 @@ export const parkingDelete = (data: any): Res<any> =>
 export const parkingUpdateStatus = (data: any): Res<any> =>
     request.post("/CouponCar/updateStatus", data);
 
+
