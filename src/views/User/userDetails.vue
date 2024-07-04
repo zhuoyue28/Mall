@@ -145,7 +145,29 @@ const tableColumns = ref([
         key: 'is_settlement'
     },
 ])
-
+const tableColumns2 = ref([
+    //表头
+    {
+        title: '优惠劵名称',
+        dataIndex: 'create_time',
+        key: 'create_time'
+    },
+    {
+        title: '优惠券内容',
+        dataIndex: 'sn',
+        key: 'sn'
+    },
+    {
+        title: '有效期',
+        dataIndex: 'shop_name',
+        key: 'shop_name'
+    },
+    {
+        title: '优惠券状态',
+        dataIndex: 'coupon_name',
+        key: 'coupon_name'
+    },
+])
 const tableColumns3 = ref([
     //表头
     {

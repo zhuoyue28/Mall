@@ -35,5 +35,22 @@ export const couponcreateCode = (data: any): Res<any> =>
 // 兑换记录
 export const couponCodeList = (data: any): Res<any> =>
     request.post("/coupon/codeList", data);
-
+// 停车卷列表
+export const parkingCouponList = (data: any): Res<any> =>
+    request.post("/CouponCar/selectList", data);
+// 停车卷添加
+export const parkingAdd = (data: any): Res<any> =>
+    request.post("/CouponCar/add", data);
+// 停车卷更新
+export const parkingUpdate = (data: any): Res<any> =>
+    request.post("/CouponCar/update", data);
+// 停车卷详情
+export const parkingFindData = (data: any): Res<any> =>
+    request.post("/CouponCar/findData", data);
+// 停车卷删除
+export const parkingDelete = (data: any): Res<any> =>
+    request.post("/CouponCar/delete", data);
+// 停车卷上下架
+export const parkingUpdateStatus = (data: any): Res<any> =>
+    request.post("/CouponCar/updateStatus", data);
 
