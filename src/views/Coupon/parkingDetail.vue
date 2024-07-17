@@ -90,7 +90,6 @@ const methods = {
     submit() {//提交
         if (route.query.type == '3') return
         // if (data.formState.store_id == null) data.formState.store_id = 0
-        if (data.formState.type == 2) data.formState.full = null
         if (route.query.type == '2') {
             formState.value!.validate().then(() => {
                 data.submitLoading = true;
@@ -146,9 +145,6 @@ const methods = {
             }
         })
     },
-    store_rebateChange() {//店铺分成自动补全
-        data.formState.platform_rebate = 100 - (data.formState.store_rebate ? data.formState.store_rebate : 0)
-    }
 }
 
 type InsertFnType = (url: string, alt: string, href: string) => void
