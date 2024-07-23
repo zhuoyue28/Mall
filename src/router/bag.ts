@@ -2,8 +2,7 @@
 
 // 引入
 import router from "./index";
-// 判断用户无token 返回登录页提示有用
-import { message } from 'ant-design-vue';
+
 import NProgress from "./NProgress"
 
 // 简单配置  进度条,可以不配置：在axios中我们不再做配置，以用来区分。
@@ -15,20 +14,7 @@ const modules: any = await import.meta.glob('../views/**/*.vue')  // 导入
 
 
 
-router.beforeEach((to, from, next) => {
-    NProgress.start();
-    const mallToken = localStorage.getItem('mallToken')
-    // 在导航前执行操作，例如身份验证检查\
-    if (to.path == '/login') {
-        console.log('前往登录');
-        next()
-    } else if (!mallToken) {
-        message.error('未登录,请先登录')
-        next('/login'); // 重定向到登录页
-    } else {
-        next()
-    }
-})
+
 
 // router.beforeEach((to, from, next) => {
 //     // 进度条

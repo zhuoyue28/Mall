@@ -107,7 +107,7 @@ const methods = reactive({
                     store.setMenuList(res.data)
                     console.log(store.menulist);
                     localStorage.setItem('menuList', JSON.stringify(res.data))
-                    data.router.push('/')
+                    data.router.push('/menulist')
                 })
 
             } else {
