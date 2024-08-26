@@ -35,20 +35,24 @@ router.beforeEach((to, from, next) => {
     const mallToken = localStorage.getItem('mallToken')
     // 在导航前执行操作，例如身份验证检查\
     if (to.path == '/login') {
+        console.log(router.hasRoute("菜单管理"));
         console.log('前往登录');
         next()
     } else if (!mallToken) {
         message.error('未登录,请先登录')
         next('/login'); // 重定向到登录页
     }
-    else if (from.path == '/login') {
-        console.log('登录成功，前往layout');
+    else if (!router.hasRoute("菜单管理")) {
+        console.log('登录成功，前往layout', router.hasRoute("/menulist"), to);
         // boot()
-        addRoutes().then(()=>{
-            next()
+        addRoutes().then(() => {
+            router.replace('/menulist');
+            // return to.fullPath
         })
     }
     else {
+        console.log(router.hasRoute("菜单管理"));
+
         next()
     }
 })

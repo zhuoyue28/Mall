@@ -17,6 +17,9 @@ const messageFn = (str: string, type: 'info' | 'success' | 'warning' | 'error') 
 provide('messageFn', messageFn)
 
 
+localStorage.setItem('sbnum', '0');
+
+
 
 </script>
 
