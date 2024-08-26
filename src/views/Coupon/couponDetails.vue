@@ -170,7 +170,7 @@ const data = reactive({
 const methods = {
     submit() {//提交
         if (route.query.type == '3') return
-        if (data.formState.store_id == null) data.formState.store_id = 0
+        // if (data.formState.store_id == null) data.formState.store_id = 0
         if (data.formState.type == 2) data.formState.full = null
         if (route.query.type == '2') {
             formState.value!.validate().then(() => {

@@ -13,7 +13,7 @@
 
             <a-form :disabled="route.query.type == '3'" :model="data.formState" ref="formState" name="horizontal_login"
                 autocomplete="off" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }" style="max-width: 900px;">
-                <a-form-item label="优惠券名称" name="title" :rules="[{ required: true, message: '请输入店铺名称!' }]">
+                <a-form-item label="优惠券名称" name="title" :rules="[{ required: true, message: '请输入优惠券名称!' }]">
                     <a-input v-model:value="data.formState.title" placeholder="请输入优惠券名称" />
                 </a-form-item>
                 <a-form-item  label="优惠券内容" name="price"
@@ -27,7 +27,7 @@
                 <a-form-item label="有效期，领取后" name="day" :rules="[{ required: true, message: '请输入有效期!' }]">
                     <a-input-number placeholder="请输入" v-model:value="data.formState.day" :min="1"  addon-after="天" />
                 </a-form-item>
-                <a-form-item label="兑换所需积分" name="use_score" :rules="[{ required: true, message: '请输入有效期!' }]">
+                <a-form-item label="兑换所需积分" name="use_score" :rules="[{ required: true, message: '请输入兑换所需积分!' }]">
                     <a-input-number placeholder="请输入兑换所需积分" v-model:value="data.formState.use_score" :min="0" addon-after="积分" />
                 </a-form-item>
                 <a-form-item label="使用规则" name="use_rule" :rules="[{ required: true, validator: data.detailsValidator }]">
